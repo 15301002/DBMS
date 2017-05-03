@@ -4,7 +4,8 @@
 
 #include "stdafx.h"
 #include "DBMS.h"
-
+#include "DBTreeView.h"
+#include "DBMSView.h"
 #include "MainFrm.h"
 
 #ifdef _DEBUG
@@ -90,6 +91,29 @@ void CMainFrame::Dump(CDumpContext& dc) const
 }
 #endif //_DEBUG
 
+BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
+{
+	// Create a static split window, the view can be divided into two columns
+	if (!m_wndSpliter.CreateStatic(this, 1, 2))
+	{
+		AfxMessageBox(_T("Failed to create split window！"));
+		return FALSE;
+	}
 
+	// Add view for the separated window.
+	if (!m_wndSpliter.CreateView(0, 0, RUNTIME_CLASS(CDBTreeView), CSize(200, 0), pContext))
+	{
+		return FALSE;
+	}
+
+	if (!m_wndSpliter.CreateView(0, 1, RUNTIME_CLASS(CDBMSView), CSize(0, 0), pContext))
+	{
+		return FALSE;
+	}
+
+
+	return TRUE;
+
+}
 // CMainFrame 消息处理程序
 

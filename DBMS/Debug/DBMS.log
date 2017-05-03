@@ -1,8 +1,13 @@
 ﻿  stdafx.cpp
   MainFrm.cpp
+  DBTreeView.cpp
   DBMSView.cpp
   DBMSDoc.cpp
   DBMS.cpp
+  CTableEntity.cpp
+  CFieldEntity.cpp
+  CDBEntity.cpp
+  AppException.cpp
   正在生成代码...
   DBMS.vcxproj -> D:\Programming\DBMS\Debug\DBMS.exe
   DBMS.vcxproj -> D:\Programming\DBMS\Debug\DBMS.pdb (Partial PDB)

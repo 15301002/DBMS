@@ -20,9 +20,7 @@
 
 BEGIN_MESSAGE_MAP(CDBMSApp, CWinApp)
 	ON_COMMAND(ID_APP_ABOUT, &CDBMSApp::OnAppAbout)
-	// 基于文件的标准文档命令
-	ON_COMMAND(ID_FILE_NEW, &CWinApp::OnFileNew)
-	ON_COMMAND(ID_FILE_OPEN, &CWinApp::OnFileOpen)
+	ON_COMMAND(ID_APP_EXIT, &CDBMSApp::OnAppExit)
 END_MESSAGE_MAP()
 
 
@@ -120,6 +118,7 @@ BOOL CDBMSApp::InitInstance()
 
 	// 唯一的一个窗口已初始化，因此显示它并对其进行更新
 	m_pMainWnd->ShowWindow(SW_SHOW);
+	m_pMainWnd->SetWindowTextW(_T("DBMS"));
 	m_pMainWnd->UpdateWindow();
 	return TRUE;
 }
@@ -176,5 +175,9 @@ void CDBMSApp::OnAppAbout()
 
 // CDBMSApp 消息处理程序
 
+void CDBMSApp::OnAppExit()
+{
+	// TODO: 在此添加命令处理程序代码
 
-
+	exit(0);
+}

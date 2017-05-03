@@ -28,6 +28,7 @@ public:
 // й╣ож
 	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
+	afx_msg void OnAppExit();
 };
 
 extern CDBMSApp theApp;

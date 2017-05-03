@@ -4,7 +4,7 @@
 
 #pragma once
 
-
+class CDBMSDoc;
 class CDBMSView : public CView
 {
 protected: // 仅从序列化创建
