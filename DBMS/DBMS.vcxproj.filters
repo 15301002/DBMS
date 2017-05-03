@@ -52,6 +52,12 @@
     <Filter Include="Util\Source Files">
       <UniqueIdentifier>{b0a3ea01-df3f-4c97-9996-a2fa4edb2f5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dao\Header Files">
+      <UniqueIdentifier>{edeb89b6-c16d-4d78-a20d-f24b8f083926}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dao\Source Files">
+      <UniqueIdentifier>{670967d3-d7ed-40c8-a7b2-d971e852bce3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -81,23 +87,26 @@
     <ClInclude Include="MainFrm.h">
       <Filter>View\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CDBEntity.h">
-      <Filter>Entity\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CTableEntity.h">
-      <Filter>Entity\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Data Structure.h">
       <Filter>Global\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CFieldEntity.h">
-      <Filter>Entity\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DBTreeView.h">
       <Filter>View\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AppException.h">
       <Filter>Util\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DBEntity.h">
+      <Filter>Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldEntity.h">
+      <Filter>Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TableEntity.h">
+      <Filter>Entity\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RecordEntity.h">
+      <Filter>Entity\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -116,20 +125,23 @@
     <ClCompile Include="MainFrm.cpp">
       <Filter>View\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CDBEntity.cpp">
-      <Filter>Entity\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CFieldEntity.cpp">
-      <Filter>Entity\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CTableEntity.cpp">
-      <Filter>Entity\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DBTreeView.cpp">
       <Filter>View\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AppException.cpp">
       <Filter>Util\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DBEntity.cpp">
+      <Filter>Entity\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldEntity.cpp">
+      <Filter>Entity\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TableEntity.cpp">
+      <Filter>Entity\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RecordEntity.cpp">
+      <Filter>Entity\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
