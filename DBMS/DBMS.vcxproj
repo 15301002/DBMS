@@ -186,8 +186,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppException.h" />
-    <ClInclude Include="CDBEntity.h" />
-    <ClInclude Include="CFieldEntity.h" />
+    <ClInclude Include="DBEntity.h" />
+    <ClInclude Include="FieldEntity.h" />
     <ClInclude Include="Data Structure.h" />
     <ClInclude Include="DBMS.h" />
     <ClInclude Include="DBMSDoc.h" />
@@ -195,16 +195,18 @@
     <ClInclude Include="DBTreeView.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="RecordEntity.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="CTableEntity.h" />
+    <ClInclude Include="TableEntity.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppException.cpp" />
-    <ClCompile Include="CDBEntity.cpp" />
-    <ClCompile Include="CFieldEntity.cpp" />
-    <ClCompile Include="CTableEntity.cpp" />
+    <ClCompile Include="DBEntity.cpp" />
+    <ClCompile Include="FieldEntity.cpp" />
+    <ClCompile Include="RecordEntity.cpp" />
+    <ClCompile Include="TableEntity.cpp" />
     <ClCompile Include="DBMS.cpp" />
     <ClCompile Include="DBMSDoc.cpp" />
     <ClCompile Include="DBMSView.cpp" />
