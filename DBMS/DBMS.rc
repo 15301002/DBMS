@@ -149,6 +149,17 @@ BEGIN
     DEFPUSHBUTTON   "È·¶¨",IDOK,113,41,50,14,WS_GROUP
 END
 
+IDD_CREATE_DATABASE DIALOGEX 0, 0, 261, 95
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "CREATE Database"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Yes",IDOK,55,52,50,14
+    PUSHBUTTON      "No",IDCANCEL,143,52,50,14
+    CTEXT           "Enter database name:",IDC_STATIC,19,22,94,15,SS_CENTERIMAGE
+    EDITTEXT        IDC_DATABASE_NAME,119,22,112,16,ES_AUTOHSCROLL
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -204,8 +215,27 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 55
     END
+
+    IDD_CREATE_DATABASE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 254
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 88
+    END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_CREATE_DATABASE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 
 /////////////////////////////////////////////////////////////////////////////

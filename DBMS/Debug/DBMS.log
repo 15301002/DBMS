@@ -1,10 +1,12 @@
-﻿  MainFrm.cpp
+﻿  stdafx.cpp
+  TableEntity.cpp
+  RecordEntity.cpp
+  MainFrm.cpp
+  FieldEntity.cpp
+  DBTreeView.cpp
   DBMSView.cpp
   DBMSDoc.cpp
   DBMS.cpp
-  TableEntity.cpp
-  RecordEntity.cpp
-  FieldEntity.cpp
   DBEntity.cpp
   AppException.cpp
   正在生成代码...

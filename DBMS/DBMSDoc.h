@@ -4,13 +4,16 @@
 
 
 #pragma once
-
+#include "DBEntity.h"
 
 class CDBMSDoc : public CDocument
 {
 protected: // 仅从序列化创建
 	CDBMSDoc();
 	DECLARE_DYNCREATE(CDBMSDoc)
+
+private:
+	CDBEntity dbEntity;
 
 // 特性
 public:
