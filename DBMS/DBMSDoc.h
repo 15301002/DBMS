@@ -14,9 +14,13 @@ protected: // 仅从序列化创建
 
 private:
 	CDBEntity dbEntity;
-
+	CString strError;
 // 特性
 public:
+	CString GetError();
+	void SetError(CString error);
+	CDBEntity GetDBEntity();
+	void SetDBEntity(CDBEntity e);
 
 // 操作
 public:

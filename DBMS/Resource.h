@@ -7,7 +7,6 @@
 #define IDR_MAINFRAME                   128
 #define IDR_DBMSTYPE                    130
 #define IDD_CREATE_DATABASE             310
-#define IDC_EDIT1                       1000
 #define IDC_DATABASE_NAME               1000
 #define ID_DATABASE_NEW                 32771
 #define ID_DATABASE_CREATE              32772

@@ -5,6 +5,6 @@ class CDBDao
 public:
 	CDBDao();
 	~CDBDao();
-	bool Create(CString name, CDBEntity & e);
+	bool Create(CString strFilepath, CDBEntity & e);
 	bool GetDatabase(CString name, CDBEntity & e);
 };

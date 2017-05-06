@@ -1,15 +1,3 @@
-﻿  stdafx.cpp
-  TableEntity.cpp
-  RecordEntity.cpp
-  MainFrm.cpp
-  FieldEntity.cpp
-  DBTreeView.cpp
-  DBMSView.cpp
-  DBMSDoc.cpp
-  DBMS.cpp
-  DBEntity.cpp
-  AppException.cpp
-  正在生成代码...
-  LINK : 没有找到 D:\Programming\DBMS\Debug\DBMS.exe 或上一个增量链接没有生成它；正在执行完全链接
+﻿  CREATEDatabaseDlg.cpp
   DBMS.vcxproj -> D:\Programming\DBMS\Debug\DBMS.exe
   DBMS.vcxproj -> D:\Programming\DBMS\Debug\DBMS.pdb (Partial PDB)

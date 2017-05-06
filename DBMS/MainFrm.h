@@ -40,6 +40,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 	BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext * pContext);
+public:
+	afx_msg void OnDatabaseCreate();
 };
 
 

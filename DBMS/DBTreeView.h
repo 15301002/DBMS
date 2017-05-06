@@ -3,6 +3,8 @@
 
 class CDBTreeView : public CTreeView {
 	DECLARE_DYNCREATE(CDBTreeView);
+private:
+	CTreeCtrl* pTreeCtrl;
 protected :
 	CDBTreeView();
 	virtual ~CDBTreeView();
@@ -14,5 +16,7 @@ public :
 
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	virtual void OnInitialUpdate();
 };
 

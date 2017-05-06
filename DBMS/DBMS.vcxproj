@@ -186,16 +186,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppException.h" />
+    <ClInclude Include="CharUtil.h" />
+    <ClInclude Include="CREATEDatabaseDlg.h" />
     <ClInclude Include="DBDao.h" />
     <ClInclude Include="DBEntity.h" />
     <ClInclude Include="DBLogic.h" />
     <ClInclude Include="FieldEntity.h" />
-    <ClInclude Include="Data Structure.h" />
+    <ClInclude Include="DataStructure.h" />
     <ClInclude Include="DBMS.h" />
     <ClInclude Include="DBMSDoc.h" />
     <ClInclude Include="DBMSView.h" />
     <ClInclude Include="DBTreeView.h" />
     <ClInclude Include="FileDao.h" />
+    <ClInclude Include="FileLogic.h" />
+    <ClInclude Include="FileUtil.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="RecordEntity.h" />
@@ -206,11 +210,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppException.cpp" />
+    <ClCompile Include="CharUtil.cpp" />
+    <ClCompile Include="CREATEDatabaseDlg.cpp" />
     <ClCompile Include="DBDao.cpp" />
     <ClCompile Include="DBEntity.cpp" />
     <ClCompile Include="DBLogic.cpp" />
     <ClCompile Include="FieldEntity.cpp" />
     <ClCompile Include="FileDao.cpp" />
+    <ClCompile Include="FileLogic.cpp" />
+    <ClCompile Include="FileUtil.cpp" />
     <ClCompile Include="RecordEntity.cpp" />
     <ClCompile Include="TableEntity.cpp" />
     <ClCompile Include="DBMS.cpp" />

@@ -7,6 +7,11 @@
 #include "DBTreeView.h"
 #include "DBMSView.h"
 #include "MainFrm.h"
+#include "DBEntity.h"
+#include "DBMSDoc.h"
+#include "CREATEDatabaseDlg.h"
+#include "DBLogic.h"
+#include "AppException.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -18,6 +23,7 @@ IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
+	ON_COMMAND(ID_DATABASE_CREATE, &CMainFrame::OnDatabaseCreate)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -117,3 +123,31 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 }
 // CMainFrame 消息处理程序
 
+
+
+void CMainFrame::OnDatabaseCreate()
+{
+	// TODO: 在此添加命令处理程序代码
+	CCREATEDatabaseDlg dlg;
+	int res = dlg.DoModal();
+	if (res == IDOK) {
+		CDBEntity* e = new CDBEntity(dlg.GetDatabaseName());
+		//	Get the object of document
+		CDBMSDoc* pDoc = (CDBMSDoc*)this->GetActiveDocument();
+		pDoc->SetDBEntity(*e);
+		
+		CDBLogic* dbLogic = new CDBLogic();
+			if (!dbLogic->GetDatabase(*e)) {
+				if (!dbLogic->CreateDatabase(*e)) {
+					AfxMessageBox(_T("Failed to create database！"));
+				}
+			}
+			else 
+				AfxMessageBox(_T("Already have this Database!"));
+		delete dbLogic;
+		CString strTitle;
+		strTitle.Format(_T("Database(%s)"), e->GetName());
+		this->SetTitle(strTitle);
+		delete e;
+	}
+}

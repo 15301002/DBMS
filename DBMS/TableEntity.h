@@ -1,5 +1,5 @@
 #pragma once
-#include "Data Structure.h"
+#include "DataStructure.h"
 #include "FieldEntity.h"
 
 class CTableEntity : public CObject{

@@ -87,9 +87,6 @@
     <ClInclude Include="MainFrm.h">
       <Filter>View\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Data Structure.h">
-      <Filter>Global\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DBTreeView.h">
       <Filter>View\Header Files</Filter>
     </ClInclude>
@@ -116,6 +113,21 @@
     </ClInclude>
     <ClInclude Include="DBLogic.h">
       <Filter>Logic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileLogic.h">
+      <Filter>Logic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructure.h">
+      <Filter>Global\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileUtil.h">
+      <Filter>Util\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CharUtil.h">
+      <Filter>Util\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CREATEDatabaseDlg.h">
+      <Filter>View\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +172,18 @@
     </ClCompile>
     <ClCompile Include="DBLogic.cpp">
       <Filter>Logic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileLogic.cpp">
+      <Filter>Logic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileUtil.cpp">
+      <Filter>Util\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CharUtil.cpp">
+      <Filter>Util\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CREATEDatabaseDlg.cpp">
+      <Filter>View\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

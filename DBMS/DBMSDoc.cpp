@@ -7,6 +7,8 @@
 // ATL 项目中进行定义，并允许与该项目共享文档代码。
 #ifndef SHARED_HANDLERS
 #include "DBMS.h"
+#include "DBLogic.h"
+#include "AppException.h"
 #endif
 
 #include "DBMSDoc.h"
@@ -30,7 +32,28 @@ END_MESSAGE_MAP()
 CDBMSDoc::CDBMSDoc()
 {
 	// TODO: 在此添加一次性构造代码
+	strError = _T("");
+	dbEntity = CDBEntity(_T("default"));
+}
 
+CString CDBMSDoc::GetError()
+{
+	return strError;
+}
+
+void CDBMSDoc::SetError(CString error)
+{
+	this->strError = error;
+}
+
+CDBEntity CDBMSDoc::GetDBEntity()
+{
+	return dbEntity;
+}
+
+void CDBMSDoc::SetDBEntity(CDBEntity e)
+{
+	this->dbEntity = e;
 }
 
 CDBMSDoc::~CDBMSDoc()
@@ -45,6 +68,23 @@ BOOL CDBMSDoc::OnNewDocument()
 	// TODO: 在此添加重新初始化代码
 	// (SDI 文档将重用该文档)
 
+	CDBLogic* dbLogic = new CDBLogic();
+	try
+	{
+		if (!dbLogic->GetDatabase(dbEntity)){
+			if (!dbLogic->CreateDatabase(dbEntity)){
+				throw new CAppException(_T("Failed to create database！"));
+			}
+		}
+		delete dbLogic;
+		CString strTitle;
+		strTitle.Format(_T("Database(%s)"), dbEntity.GetName());
+		this->SetTitle(strTitle);
+	}
+	catch (CAppException* e){
+		strError = e->GetErrorMessage();
+		delete e;
+	}
 	return TRUE;
 }
 

@@ -1,6 +1,6 @@
 
 #pragma once
-#include "Data Structure.h"
+#include "DataStructure.h"
 
 class CDBEntity {
 private :
@@ -24,6 +24,6 @@ public:
 	CString GetPath();
 	SYSTEMTIME GetCrtTime();
 
-	Database GetBlock();
-	void SetBlock(Database db);
+	Database GetDatabase();
+	void SetDatabase(Database db);
 };
