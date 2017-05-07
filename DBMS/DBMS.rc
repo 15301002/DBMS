@@ -88,7 +88,7 @@ IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
 
 IDR_MAINFRAME TOOLBAR 16, 15
 BEGIN
-    BUTTON      ID_DATABASE_NEW
+    BUTTON      ID_DATABASE_CREATE
     BUTTON      ID_DATABASE_OPEN
     BUTTON      ID_DATABASE_SAVE
     SEPARATOR
@@ -110,16 +110,14 @@ BEGIN
     POPUP "Databases(&D)"
     BEGIN
         MENUITEM "CREATE(&N)\tCtrl+N",          ID_DATABASE_CREATE
-        MENUITEM "Open&O)...\tCtrl+O",          ID_DATABASE_OPEN
-        MENUITEM SEPARATOR
-        MENUITEM "Save(&S)\tCtrl+S",            ID_DATABASE_SAVE
-        MENUITEM "Save as(&A)...",              ID_DATABASE_SAVE_AS
+        MENUITEM "DROP(&D)\tCtrl+D",            ID_DATABASES_DROP
+        MENUITEM "USE(&U)\tCtrl+U",             ID_DATABASES_USE
     END
     POPUP "Table(&T)"
     BEGIN
         MENUITEM "CREATE(&N)\tCtrl+N",          ID_TABLE_CREATE
-        MENUITEM "ALTER(&A)\tCtrl+A",           ID_TABLE_ALTER
         MENUITEM "DROP(&D)\tCtrl+D",            ID_TABLE_DROP
+        MENUITEM "ALTER(&A)\tCtrl+A",           ID_TABLE_ALTER
     END
     POPUP "Field(&F)"
     BEGIN

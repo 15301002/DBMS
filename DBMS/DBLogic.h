@@ -12,4 +12,5 @@ public:
 	~CDBLogic();
 	bool CreateDatabase(CDBEntity & e);
 	bool GetDatabase(CDBEntity & e);
+	int GetDatabases(DBARR &arrDB);
 };

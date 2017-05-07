@@ -21,6 +21,14 @@ CDBEntity::CDBEntity()
 	::GetLocalTime(&tCtTime);
 }
 
+CDBEntity::CDBEntity(const CDBEntity & e)
+{
+	this->bType = e.bType;
+	this->strFilePath = e.strFilePath;
+	this->strName = e.strName;
+	this->tCtTime = e.tCtTime;
+}
+
 CDBEntity::~CDBEntity(){}
 
 void CDBEntity::SetName(CString name) {

@@ -34,6 +34,7 @@ protected:  // 控件条嵌入成员
 	CToolBar		m_wndToolBar;
 	CStatusBar		m_wndStatusBar;
 	CSplitterWnd	m_wndSpliter;
+	BOOL			useDatabase;
 // 生成的消息映射函数
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -42,6 +43,8 @@ protected:
 	BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext * pContext);
 public:
 	afx_msg void OnDatabaseCreate();
+	afx_msg void OnDatabasesDrop();
+	afx_msg void OnDatabasesUse();
 };
 
 

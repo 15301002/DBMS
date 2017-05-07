@@ -12,6 +12,7 @@
 #include "CREATEDatabaseDlg.h"
 #include "DBLogic.h"
 #include "AppException.h"
+#include "Global.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -24,6 +25,8 @@ IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
 	ON_COMMAND(ID_DATABASE_CREATE, &CMainFrame::OnDatabaseCreate)
+	ON_COMMAND(ID_DATABASES_DROP, &CMainFrame::OnDatabasesDrop)
+	ON_COMMAND(ID_DATABASES_USE, &CMainFrame::OnDatabasesUse)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -69,7 +72,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockControlBar(&m_wndToolBar);
 
-
+	
 	return 0;
 }
 
@@ -135,19 +138,50 @@ void CMainFrame::OnDatabaseCreate()
 		//	Get the object of document
 		CDBMSDoc* pDoc = (CDBMSDoc*)this->GetActiveDocument();
 		pDoc->SetDBEntity(*e);
-		
-		CDBLogic* dbLogic = new CDBLogic();
-			if (!dbLogic->GetDatabase(*e)) {
-				if (!dbLogic->CreateDatabase(*e)) {
-					AfxMessageBox(_T("Failed to create database！"));
-				}
-			}
-			else 
-				AfxMessageBox(_T("Already have this Database!"));
-		delete dbLogic;
+		pDoc->CreateDatabase();
 		CString strTitle;
 		strTitle.Format(_T("Database(%s)"), e->GetName());
-		this->SetTitle(strTitle);
+		pDoc->SetTitle(strTitle);
 		delete e;
+		pDoc->UpdateAllViews(NULL, UPDATE_CREATE_DATABASE, & (pDoc->GetDBEntity()));
 	}
+}
+
+
+
+
+void CMainFrame::OnDatabasesDrop()
+{
+	// TODO: 在此添加命令处理程序代码
+	CDBMSDoc* pDoc = (CDBMSDoc*)this->GetActiveDocument();
+	int res = MessageBoxA(NULL, "Are you sure to DROP the selected database?", "DROP DATABASE", MB_OKCANCEL);
+	if (res == MB_OK) {
+		pDoc->UpdateAllViews(NULL, UPDATE_DROP_DATABASE, NULL);
+	}
+}
+
+
+void CMainFrame::OnDatabasesUse()
+{
+	// TODO: 在此添加命令处理程序代码
+	// Get the pointer to the document
+	CDBMSDoc* pDoc = (CDBMSDoc*)this->GetActiveDocument();
+
+	// Read table
+	pDoc->LoadTables();
+
+	// Decide whether has exception
+	CString strError = pDoc->GetError();
+	if (strError.GetLength() > 0)
+	{
+		AfxMessageBox(strError);
+		pDoc->SetError(_T(""));
+	}
+
+	// The database has been opened
+	useDatabase = TRUE;
+
+	// Update view
+	pDoc->UpdateAllViews(NULL, UPDATE_USE_DATABASE, NULL);
+	
 }

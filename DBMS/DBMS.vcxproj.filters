@@ -105,9 +105,6 @@
     <ClInclude Include="RecordEntity.h">
       <Filter>Entity\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FileDao.h">
-      <Filter>Dao\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DBDao.h">
       <Filter>Dao\Header Files</Filter>
     </ClInclude>
@@ -128,6 +125,12 @@
     </ClInclude>
     <ClInclude Include="CREATEDatabaseDlg.h">
       <Filter>View\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TableLogic.h">
+      <Filter>Logic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TableDao.h">
+      <Filter>Dao\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -164,9 +167,6 @@
     <ClCompile Include="RecordEntity.cpp">
       <Filter>Entity\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FileDao.cpp">
-      <Filter>Dao\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DBDao.cpp">
       <Filter>Dao\Source Files</Filter>
     </ClCompile>
@@ -184,6 +184,12 @@
     </ClCompile>
     <ClCompile Include="CREATEDatabaseDlg.cpp">
       <Filter>View\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TableLogic.cpp">
+      <Filter>Logic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TableDao.cpp">
+      <Filter>Dao\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

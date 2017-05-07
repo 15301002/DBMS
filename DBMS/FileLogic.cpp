@@ -69,3 +69,63 @@ CString CFileLogic::GetAbsolutePath(const CString strRelativePath)
 
 	return strFolder;
 }
+
+CString CFileLogic::GetTableFile(const CString strDBName)
+{
+	CString strPath = _T("");
+	try
+	{
+		// Get the absolute path of the table description file(*.tb)
+		strPath.Format(_T("data\\%s\\%s.tb"), strDBName, strDBName);
+		strPath = GetAbsolutePath(strPath);
+	}
+	catch (CAppException* e)
+	{
+		throw e;
+	}
+	catch (...)
+	{
+		throw new CAppException(_T("Failed to get tb file path!"));
+	}
+	return strPath;
+}
+
+CString CFileLogic::GetTbDefineFile(const CString strDBName, const CString strTableName)
+{
+	CString strPath = _T("");
+	try
+	{
+		strPath.Format(_T("data\\%s\\%s.tdf"), strDBName, strTableName);
+		strPath = GetAbsolutePath(strPath);
+	}
+	catch (CAppException* e)
+	{
+		throw e;
+	}
+	catch (...)
+	{
+		throw new CAppException(_T("Failed to get the path of the table definition file"));
+	}
+
+	return strPath;
+}
+
+CString CFileLogic::GetTbRecordFile(const CString strDBName, const CString strTableName)
+{
+	CString strPath = _T("");
+	try
+	{
+		strPath.Format(_T("data\\%s\\%s.trd"), strDBName, strTableName);
+		strPath = GetAbsolutePath(strPath);
+	}
+	catch (CAppException* e)
+	{
+		throw e;
+	}
+	catch (...)
+	{
+		throw new CAppException(_T("Failed to get the path of the table record file!"));
+	}
+
+	return strPath;
+}

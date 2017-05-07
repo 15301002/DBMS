@@ -15,13 +15,12 @@ bool CDBDao::Create(CString strFilepath, CDBEntity & e){
 	try
 	{
 		CFile file;
-			if (file.Open(strFilepath, CFile::modeCreate | CFile::modeWrite | CFile::shareDenyWrite) == FALSE)
+			if (file.Open(strFilepath,  CFile::modeWrite | CFile::shareDenyWrite) == FALSE)
 			{
 				return false;
 			}
 		
-
-		file.SeekToBegin();
+		file.SeekToEnd();
 		file.Write(&e.GetDatabase(), sizeof(Database));
 		file.Close();
 
@@ -44,7 +43,7 @@ bool CDBDao::Create(CString strFilepath, CDBEntity & e){
 }
 
 
-bool CDBDao::GetDatabase(CString filePath, CDBEntity & e){
+bool CDBDao::GetDatabase(CString filePath,CDBEntity &e){
 	try{
 		CString strDBName = e.GetName();
 		if (strDBName.GetLength() == 0){
@@ -80,4 +79,31 @@ bool CDBDao::GetDatabase(CString filePath, CDBEntity & e){
 		throw new CAppException(_T("Failed to create the database file!"));
 	}
 	return false;
+}
+
+int CDBDao::GetDatabases(CString filePath, DBARR & arrDB)
+{
+	try {
+		CFile file;
+		if (file.Open(filePath, CFile::modeRead | CFile::shareDenyNone) == FALSE) {
+			return false;
+		}
+		Database sdb;
+		file.SeekToBegin();
+		int count = 0;
+		while (file.Read(&sdb, sizeof(Database)) > 0) {
+			CDBEntity *db = new CDBEntity(sdb);
+			arrDB.Add(db);
+			count++;
+		}
+		file.Close();
+		return count;
+	}
+	catch (CException* e) {
+		e->Delete();
+		throw new CAppException(_T("Failed to create the database file!"));
+	}
+	catch (...) {
+		throw new CAppException(_T("Failed to create the database file!"));
+	}
 }

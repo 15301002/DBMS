@@ -18,6 +18,8 @@ public :
 	CTableEntity();
 	~CTableEntity();
 public :
+	Table GetTable();
+	void SetTable(Table tb);
 	CFieldEntity* AddField(CFieldEntity &field);
 	CFieldEntity* GetFieldAt(int index);
 	void SetName(CString name);
@@ -35,4 +37,8 @@ public :
 	CString GetTidPath();
 	SYSTEMTIME GetCtTime();
 	SYSTEMTIME GETLMTime();
+
+	int GetFieldNum();
 };
+
+typedef CTypedPtrArray<CPtrArray, CTableEntity*> TABLEARR;

@@ -2,7 +2,7 @@
 #pragma once
 #include "DataStructure.h"
 
-class CDBEntity {
+class CDBEntity : public CObject{
 private :
 	CString		strName;
 	CString		strFilePath;
@@ -10,8 +10,9 @@ private :
 	SYSTEMTIME	tCtTime;
 public :
 	CDBEntity(Database &db);
-	CDBEntity(CString strName);
+	CDBEntity(const CString strName);
 	CDBEntity();
+	CDBEntity(const CDBEntity& e);
 	~CDBEntity();
 public:
 	void SetName(CString name);
@@ -27,3 +28,5 @@ public:
 	Database GetDatabase();
 	void SetDatabase(Database db);
 };
+
+typedef CTypedPtrArray<CPtrArray, CDBEntity*> DBARR;

@@ -118,7 +118,6 @@ BOOL CDBMSApp::InitInstance()
 
 	// 唯一的一个窗口已初始化，因此显示它并对其进行更新
 	m_pMainWnd->ShowWindow(SW_SHOW);
-	m_pMainWnd->SetWindowTextW(_T("DBMS"));
 	m_pMainWnd->UpdateWindow();
 	return TRUE;
 }

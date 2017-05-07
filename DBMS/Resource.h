@@ -21,13 +21,15 @@
 #define ID_TABLE_DROP                   32781
 #define ID_FIELD_ADD                    32782
 #define ID_FIELD_CHANGE                 32783
+#define ID_DATABASES_DROP               32788
+#define ID_DATABASES_USE                32789
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        312
-#define _APS_NEXT_COMMAND_VALUE         32788
+#define _APS_NEXT_COMMAND_VALUE         32790
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

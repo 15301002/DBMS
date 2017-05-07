@@ -1,0 +1,11 @@
+#pragma once
+
+#define UPDATE_CREATE_DATABASE 0x01
+#define UPDATE_DROP_DATABASE 0x02
+#define UPDATE_USE_DATABASE 0x03
+
+
+#define MENU_DATABASE 1
+#define MENU_TABLE 2
+#define MENU_FIELD 3
+#define MENU_RCLICK -1

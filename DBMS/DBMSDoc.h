@@ -5,6 +5,7 @@
 
 #pragma once
 #include "DBEntity.h"
+#include "TableEntity.h"
 
 class CDBMSDoc : public CDocument
 {
@@ -15,12 +16,19 @@ protected: // 仅从序列化创建
 private:
 	CDBEntity dbEntity;
 	CString strError;
+	DBARR arrDB;
+	TABLEARR arrTB;
+
 // 特性
 public:
 	CString GetError();
 	void SetError(CString error);
 	CDBEntity GetDBEntity();
 	void SetDBEntity(CDBEntity e);
+	CDBEntity * GetDBAt(int index);
+	int GetDBNum();
+	CTableEntity *GetTBAt(int index);
+	int GetTableNum();
 
 // 操作
 public:
@@ -40,6 +48,9 @@ public:
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
+	CDBEntity * CreateDatabase();
+	void LoadDatabase();
+	void LoadTables();
 #endif
 
 protected:

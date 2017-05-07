@@ -197,7 +197,6 @@
     <ClInclude Include="DBMSDoc.h" />
     <ClInclude Include="DBMSView.h" />
     <ClInclude Include="DBTreeView.h" />
-    <ClInclude Include="FileDao.h" />
     <ClInclude Include="FileLogic.h" />
     <ClInclude Include="FileUtil.h" />
     <ClInclude Include="Global.h" />
@@ -205,7 +204,9 @@
     <ClInclude Include="RecordEntity.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TableDao.h" />
     <ClInclude Include="TableEntity.h" />
+    <ClInclude Include="TableLogic.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -216,10 +217,10 @@
     <ClCompile Include="DBEntity.cpp" />
     <ClCompile Include="DBLogic.cpp" />
     <ClCompile Include="FieldEntity.cpp" />
-    <ClCompile Include="FileDao.cpp" />
     <ClCompile Include="FileLogic.cpp" />
     <ClCompile Include="FileUtil.cpp" />
     <ClCompile Include="RecordEntity.cpp" />
+    <ClCompile Include="TableDao.cpp" />
     <ClCompile Include="TableEntity.cpp" />
     <ClCompile Include="DBMS.cpp" />
     <ClCompile Include="DBMSDoc.cpp" />
@@ -232,6 +233,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TableLogic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DBMS.rc" />

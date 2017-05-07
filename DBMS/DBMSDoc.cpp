@@ -9,6 +9,7 @@
 #include "DBMS.h"
 #include "DBLogic.h"
 #include "AppException.h"
+#include "TableLogic.h"
 #endif
 
 #include "DBMSDoc.h"
@@ -33,7 +34,6 @@ CDBMSDoc::CDBMSDoc()
 {
 	// TODO: 在此添加一次性构造代码
 	strError = _T("");
-	dbEntity = CDBEntity(_T("default"));
 }
 
 CString CDBMSDoc::GetError()
@@ -53,8 +53,33 @@ CDBEntity CDBMSDoc::GetDBEntity()
 
 void CDBMSDoc::SetDBEntity(CDBEntity e)
 {
-	this->dbEntity = e;
+	this->dbEntity.SetName(e.GetName());
+	this->dbEntity.SetCrtTime(e.GetCrtTime());
+	this->dbEntity.SetPath(e.GetPath());
+	this->dbEntity.SetType(e.GetType());
 }
+
+CDBEntity* CDBMSDoc::GetDBAt(int index)
+{
+	return arrDB.GetAt(index);
+}
+
+int CDBMSDoc::GetDBNum()
+{
+	return arrDB.GetCount();
+}
+
+CTableEntity * CDBMSDoc::GetTBAt(int index)
+{
+	return arrTB.GetAt(index);
+}
+
+int CDBMSDoc::GetTableNum()
+{
+	return arrTB.GetCount();
+}
+
+
 
 CDBMSDoc::~CDBMSDoc()
 {
@@ -67,6 +92,7 @@ BOOL CDBMSDoc::OnNewDocument()
 
 	// TODO: 在此添加重新初始化代码
 	// (SDI 文档将重用该文档)
+	dbEntity.SetName(_T("default"));
 
 	CDBLogic* dbLogic = new CDBLogic();
 	try
@@ -175,3 +201,85 @@ void CDBMSDoc::Dump(CDumpContext& dc) const
 
 
 // CDBMSDoc 命令
+CDBEntity* CDBMSDoc::CreateDatabase()
+{
+	CDBEntity* pDB = &dbEntity;
+	CDBLogic dbLogic;
+	try
+	{
+		if (dbLogic.CreateDatabase(*pDB) == true)
+		{
+			arrDB.Add(pDB);
+		}
+		else
+		{
+			pDB = NULL;
+		}
+	}
+	catch (CAppException* e)
+	{
+		pDB = NULL;
+		strError = e->GetErrorMessage();
+		delete e;
+	}
+
+	return pDB;
+}
+
+void CDBMSDoc::LoadDatabase() {
+	CDBLogic dbLogic;
+	try
+	{
+		int nCount = arrDB.GetCount();
+		for (int i = 0; i < nCount; i++)
+		{
+			CDBEntity* pDB = (CDBEntity*)arrDB.GetAt(i);
+			if (pDB != NULL)
+			{
+				delete pDB;
+				pDB = NULL;
+			}
+		}
+
+		arrDB.RemoveAll();
+
+		dbLogic.GetDatabases(arrDB);
+	}
+	catch (CAppException* e)
+	{
+		strError = e->GetErrorMessage();
+		delete e;
+	}
+}
+
+void CDBMSDoc::LoadTables()
+{
+	CTableLogic tbLogic;
+
+	try
+	{
+		// Get the number of table in the table array
+		int nCount = arrTB.GetCount();
+		for (int i = 0; i < nCount; i++)
+		{
+			// Release the elements in the array
+			CTableEntity* pTable = (CTableEntity*)arrTB.GetAt(i);
+			if (pTable != NULL)
+			{
+				delete pTable;
+				pTable = NULL;
+			}
+		}
+
+		// Empty array
+		arrTB.RemoveAll();
+
+		// Get table information
+		tbLogic.GetTables(dbEntity.GetName(), arrTB);
+	}
+	catch (CAppException* e)
+	{
+		strError = e->GetErrorMessage();
+		delete e;
+	}
+}

@@ -48,3 +48,17 @@ bool CDBLogic::GetDatabase(CDBEntity & e){
 	}
 	return false;
 }
+
+int CDBLogic::GetDatabases(DBARR & arrDB)
+{
+	try {
+		return daoDB.GetDatabases(logicFile.GetDBFile(), arrDB);
+	}
+	catch (CAppException* e) {
+		throw e;
+	}
+	catch (...) {
+		throw new CAppException(_T("Failed to create database!"));
+	}
+	return false;
+}

@@ -1,6 +1,6 @@
 #pragma once
 #include "DataStructure.h"
-
+#include "CharUtil.h"
 class CFieldEntity : public CObject{
 private :
 	CString		strName;
@@ -13,7 +13,10 @@ public :
 	CFieldEntity(CFieldEntity&);
 	CFieldEntity(CString, int, int, int);
 	~CFieldEntity();
+	void SetField(Field fd);
+	Field GetField();
 public :
+	
 	void SetName(CString name);
 	void SetType(int type);
 	void SetParam(int param);

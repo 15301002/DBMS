@@ -6,5 +6,6 @@ public:
 	CDBDao();
 	~CDBDao();
 	bool Create(CString strFilepath, CDBEntity & e);
-	bool GetDatabase(CString name, CDBEntity & e);
+	bool GetDatabase(CString filePath, CDBEntity & e);
+	int GetDatabases(CString filePath, DBARR & arrDB);
 };
