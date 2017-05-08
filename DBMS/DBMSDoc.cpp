@@ -81,12 +81,9 @@ int CDBMSDoc::GetTableNum()
 
 
 
-CDBMSDoc::~CDBMSDoc()
-{
-}
+CDBMSDoc::~CDBMSDoc(){}
 
-BOOL CDBMSDoc::OnNewDocument()
-{
+BOOL CDBMSDoc::OnNewDocument(){
 	if (!CDocument::OnNewDocument())
 		return FALSE;
 
@@ -95,8 +92,7 @@ BOOL CDBMSDoc::OnNewDocument()
 	dbEntity.SetName(_T("default"));
 
 	CDBLogic* dbLogic = new CDBLogic();
-	try
-	{
+	try {
 		if (!dbLogic->GetDatabase(dbEntity)){
 			if (!dbLogic->CreateDatabase(dbEntity)){
 				throw new CAppException(_T("Failed to create database£¡"));
@@ -205,80 +201,60 @@ CDBEntity* CDBMSDoc::CreateDatabase()
 {
 	CDBEntity* pDB = &dbEntity;
 	CDBLogic dbLogic;
-	try
-	{
-		if (dbLogic.CreateDatabase(*pDB) == true)
-		{
+	try{
+		if (dbLogic.CreateDatabase(*pDB) == true){
 			arrDB.Add(pDB);
 		}
-		else
-		{
+		else{
 			pDB = NULL;
 		}
 	}
-	catch (CAppException* e)
-	{
+	catch (CAppException* e){
 		pDB = NULL;
 		strError = e->GetErrorMessage();
 		delete e;
 	}
-
 	return pDB;
 }
 
 void CDBMSDoc::LoadDatabase() {
 	CDBLogic dbLogic;
-	try
-	{
+	try{
 		int nCount = arrDB.GetCount();
-		for (int i = 0; i < nCount; i++)
-		{
+		for (int i = 0; i < nCount; i++){
 			CDBEntity* pDB = (CDBEntity*)arrDB.GetAt(i);
-			if (pDB != NULL)
-			{
+			if (pDB != NULL){
 				delete pDB;
 				pDB = NULL;
 			}
 		}
-
 		arrDB.RemoveAll();
-
 		dbLogic.GetDatabases(arrDB);
 	}
-	catch (CAppException* e)
-	{
+	catch (CAppException* e){
 		strError = e->GetErrorMessage();
 		delete e;
 	}
 }
 
-void CDBMSDoc::LoadTables()
-{
+void CDBMSDoc::LoadTables(){
 	CTableLogic tbLogic;
 
-	try
-	{
-		// Get the number of table in the table array
+	try{
 		int nCount = arrTB.GetCount();
-		for (int i = 0; i < nCount; i++)
-		{
-			// Release the elements in the array
+		for (int i = 0; i < nCount; i++){
+
 			CTableEntity* pTable = (CTableEntity*)arrTB.GetAt(i);
-			if (pTable != NULL)
-			{
+			if (pTable != NULL){
 				delete pTable;
 				pTable = NULL;
 			}
 		}
 
-		// Empty array
 		arrTB.RemoveAll();
 
-		// Get table information
 		tbLogic.GetTables(dbEntity.GetName(), arrTB);
-	}
-	catch (CAppException* e)
-	{
+	} catch (CAppException* e){
 		strError = e->GetErrorMessage();
 		delete e;
 	}

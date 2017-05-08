@@ -33,25 +33,18 @@ void CDBTreeView::OnInitialUpdate()
 
 	// TODO: 在此添加专用代码和/或调用基类
 
-	//	Get the document object
 	CDBMSDoc* pDoc = (CDBMSDoc*)this->GetDocument();
 
-	//	Get the exceptionl information
 	CString strError = pDoc->GetError();
 
-	//	Decide whether there are exceptions
 	if (strError.GetLength() != 0)
 	{
-		//	Prompt exception information
 		AfxMessageBox(strError);
 
-		//	Set the exception information to empty
 		pDoc->SetError(_T(""));
 		return;
 	}
 
-
-	//	Get tree control
 	pTreeCtrl = &this->GetTreeCtrl();
 
 	// Get the style of the tree control
@@ -66,17 +59,14 @@ void CDBTreeView::OnInitialUpdate()
 	pDoc->LoadDatabase();
 	int count = pDoc->GetDBNum();
 	for (int i = 0; i < count; i++) {
-		//	Get the database name
 		CString strDBName = pDoc->GetDBAt(i)->GetName();
 
-		//	Add root item
 		HTREEITEM hRoot = pTreeCtrl->InsertItem(strDBName, 0, 0, NULL);
 
 		pTreeCtrl->SetItemData(hRoot, MENU_DATABASE);
 		pTreeCtrl->Expand(hRoot, TVE_EXPAND);
 
 	}
-
 }
 
 
@@ -102,28 +92,42 @@ void CDBTreeView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 
 			break;
 		}
-		case UPDATE_USE_DATABASE: {
+		case UPDATE_OPEN_DATABASE: {
 			pTreeCtrl->DeleteAllItems();
 			CDBMSDoc* pDoc = (CDBMSDoc*)this->GetDocument();
 			int count = pDoc->GetDBNum();
 			for (int i = 0; i < count; i++) {
-				//	Get the database name
-				CString strDBName = pDoc->GetDBAt(i)->GetName();
 
-				//	Add root item
+				CDBEntity *db = pDoc->GetDBAt(i);
+				CString strDBName = db->GetName();
+
+				pDoc->SetDBEntity(*db);
+				pDoc->LoadTables();
+
 				HTREEITEM hRoot = pTreeCtrl->InsertItem(strDBName, 0, 0, NULL);
+
+				int nCount = pDoc->GetTableNum();
+				for (int i = 0; i < nCount; i++){
+					CTableEntity* pTableEntity = pDoc->GetTBAt(i);
+					AddTableNode(hRoot, pTableEntity);
+				}
 
 				pTreeCtrl->SetItemData(hRoot, MENU_DATABASE);
 				pTreeCtrl->Expand(hRoot, TVE_EXPAND);
+			}
+			pTreeCtrl->SelectItem(pTreeCtrl->GetRootItem());
+			break;
+		}
+		case UPDATE_ALTER_TABLE: {
 
-			}
-			int nCount = pDoc->GetTableNum();
-			for (int i = 0; i < nCount; i++)
-			{
-				CTableEntity* pTableEntity = pDoc->GetTBAt(i);
-				AddTableNode(pTableEntity);
-				pTreeCtrl->SelectItem(pTreeCtrl->GetRootItem());
-			}
+			break;
+		}
+		case UPDATE_CREATE_TABLE: {
+			CTableEntity* pTable = (CTableEntity*)pHint;
+
+			HTREEITEM hTableNode = AddTableNode(pTreeCtrl->GetSelectedItem(), pTable);
+
+			pTreeCtrl->SelectItem(hTableNode);
 			break;
 		}
 		}
@@ -131,17 +135,12 @@ void CDBTreeView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	}
 }
 
-HTREEITEM CDBTreeView::AddTableNode(CTableEntity* pTable)
-{
-	// Get root item
-	HTREEITEM hRootNode = pTreeCtrl->GetRootItem();
-	if (hRootNode != NULL)
-	{
-		// Add child item
+HTREEITEM CDBTreeView::AddTableNode(HTREEITEM hRootNode, CTableEntity* pTable){
+	if (hRootNode != NULL){
+
 		HTREEITEM hTableNode = pTreeCtrl->InsertItem(pTable->GetName(), 1, 1, hRootNode);
 
-		if (hTableNode != NULL)
-		{
+		if (hTableNode != NULL){
 			// Add number to the table item
 			pTreeCtrl->SetItemData(hTableNode, MENU_TABLE);
 
@@ -170,19 +169,15 @@ HTREEITEM CDBTreeView::AddTableNode(CTableEntity* pTable)
 	return NULL;
 }
 
-HTREEITEM CDBTreeView::AddFieldNode(CFieldEntity* pField, HTREEITEM hTableItem)
-{
+HTREEITEM CDBTreeView::AddFieldNode(CFieldEntity* pField, HTREEITEM hTableItem){
 	// Get the child item of the table item
 	HTREEITEM hItem = pTreeCtrl->GetChildItem(hTableItem);
 
-	if (hItem != NULL)
-	{
+	if (hItem != NULL){
 		// Traverse the child items of the table item
-		do
-		{
+		do{
 			// Get column item
-			if (pTreeCtrl->GetItemText(hItem).CompareNoCase(_T("Column")) == 0)
-			{
+			if (pTreeCtrl->GetItemText(hItem).CompareNoCase(_T("Column")) == 0){
 				break;
 			}
 		} while ((hItem = pTreeCtrl->GetNextSiblingItem(hItem)) != NULL);
@@ -198,43 +193,48 @@ HTREEITEM CDBTreeView::AddFieldNode(CFieldEntity* pField, HTREEITEM hTableItem)
 
 void CDBTreeView::OnTvnSelchanged (NMHDR *pNMHDR, LRESULT *pResult){
 	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
-	// Get the object of the document
+
 	CDBMSDoc* pDoc = (CDBMSDoc*)this->GetDocument();
 
-	// Get the selected item
 	HTREEITEM hSelectedItem = pTreeCtrl->GetSelectedItem();
-
+	
 	if (hSelectedItem != NULL) {
+		DWORD dwVal = pTreeCtrl->GetItemData(hSelectedItem);
+		if (dwVal == MENU_DATABASE) {
+			HTREEITEM hFindItem = hSelectedItem;
+			int nIndex = 0;
+			while ((hFindItem = pTreeCtrl->GetNextItem(hFindItem, TVGN_PREVIOUS)) != NULL) {
+				nIndex++;
+			}			
+			pDoc->SetDBEntity(* (pDoc->GetDBAt(nIndex)));
+			pDoc->LoadTables();
+		}
 	}
 	*pResult = 0;
 }
 
-void CDBTreeView::OnNMRClick(NMHDR *pNMHDR, LRESULT *pResult)
-{
-	// Get the clicked position
+void CDBTreeView::OnNMRClick(NMHDR *pNMHDR, LRESULT *pResult){
 	CPoint point;
 	GetCursorPos(&point);
-	// Convert the location of the cursor to client coordinates
+
 	pTreeCtrl->ScreenToClient(&point);
-	// Decide whether the clicked location is on the tree control
+
 	UINT nFlag = TVHT_ONITEM;
 	HTREEITEM hSelectedItem = pTreeCtrl->HitTest(point, &nFlag);
+	CString temp = pTreeCtrl->GetItemText(hSelectedItem);
+	if (temp.CollateNoCase(_T("Column")) != 0)
+		pTreeCtrl->SelectItem(hSelectedItem);
 
-
-	if (NULL != hSelectedItem)	// Uncheck the new node, to return
-	{
+	if (NULL != hSelectedItem){
 		DWORD dwVal = pTreeCtrl->GetItemData(hSelectedItem);
-		if (dwVal != MENU_RCLICK)
-		{
-			// Convert the selected coordinates into the coordinates relative to screen
+		if (dwVal != MENU_RCLICK){
 			pTreeCtrl->ClientToScreen(&point);
-			// Load the menu resource
+
 			CMenu* pMenu = this->GetParentFrame()->GetMenu()->GetSubMenu(dwVal);
-			// Show the menu on the clicked position
+
 			pMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON, point.x, point.y, AfxGetMainWnd());
 		}
 
 	}
-
 	*pResult = 0;
 }

@@ -4,9 +4,7 @@
 
 #pragma once
 
-class CMainFrame : public CFrameWnd
-{
-	
+class CMainFrame : public CFrameWnd{
 protected: // 仅从序列化创建
 	CMainFrame();
 	DECLARE_DYNCREATE(CMainFrame)
@@ -34,7 +32,7 @@ protected:  // 控件条嵌入成员
 	CToolBar		m_wndToolBar;
 	CStatusBar		m_wndStatusBar;
 	CSplitterWnd	m_wndSpliter;
-	BOOL			useDatabase;
+	BOOL			openDatabase;
 // 生成的消息映射函数
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -44,7 +42,9 @@ protected:
 public:
 	afx_msg void OnDatabaseCreate();
 	afx_msg void OnDatabasesDrop();
-	afx_msg void OnDatabasesUse();
+	afx_msg void OnDatabasesOpen();
+	afx_msg void OnTableCreate();
+	afx_msg void OnTableAlter();
 };
 
 

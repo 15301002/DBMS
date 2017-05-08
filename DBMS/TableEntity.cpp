@@ -1,18 +1,14 @@
 #include "stdafx.h"
 #include "TableEntity.h"
 #include "CharUtil.h"
-CTableEntity::CTableEntity(CString strName)
-{
-}
 
-CTableEntity::CTableEntity()
-{
-}
+CTableEntity::CTableEntity(CString strName){}
+
+CTableEntity::CTableEntity(){}
 
 CTableEntity::~CTableEntity(){}
 
-Table CTableEntity::GetTable()
-{
+Table CTableEntity::GetTable(){
 	Table tb;
 	CCharUtil::ToChars(tb.name, strName, sizeof(VARCHAR));
 	tb.field_num = arrFields.GetCount();

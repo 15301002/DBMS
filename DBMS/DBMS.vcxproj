@@ -185,9 +185,11 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RENAMETableDlg.h" />
     <ClInclude Include="AppException.h" />
     <ClInclude Include="CharUtil.h" />
     <ClInclude Include="CREATEDatabaseDlg.h" />
+    <ClInclude Include="CREATETableDlg.h" />
     <ClInclude Include="DBDao.h" />
     <ClInclude Include="DBEntity.h" />
     <ClInclude Include="DBLogic.h" />
@@ -210,9 +212,11 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="RENAMETableDlg.cpp" />
     <ClCompile Include="AppException.cpp" />
     <ClCompile Include="CharUtil.cpp" />
     <ClCompile Include="CREATEDatabaseDlg.cpp" />
+    <ClCompile Include="CREATETableDlg.cpp" />
     <ClCompile Include="DBDao.cpp" />
     <ClCompile Include="DBEntity.cpp" />
     <ClCompile Include="DBLogic.cpp" />

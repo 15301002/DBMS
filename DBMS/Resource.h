@@ -7,7 +7,13 @@
 #define IDR_MAINFRAME                   128
 #define IDR_DBMSTYPE                    130
 #define IDD_CREATE_DATABASE             310
+#define IDD_CREATE_TABLE                312
+#define IDD_REANAME_TABLE               314
+#define IDD_RENAME_TABLE                314
 #define IDC_DATABASE_NAME               1000
+#define IDC_TABLE_NAME                  1002
+#define IDC_OLD_TABLE_NAME              1003
+#define IDC_NEW_TABLE_NAME              1004
 #define ID_DATABASE_NEW                 32771
 #define ID_DATABASE_CREATE              32772
 #define ID_DATABASE_OPEN                32773
@@ -23,14 +29,16 @@
 #define ID_FIELD_CHANGE                 32783
 #define ID_DATABASES_DROP               32788
 #define ID_DATABASES_USE                32789
+#define ID_DATABASES_OPEN               32790
+#define ID_FIELD_DROP                   32791
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        312
-#define _APS_NEXT_COMMAND_VALUE         32790
-#define _APS_NEXT_CONTROL_VALUE         1001
+#define _APS_NEXT_RESOURCE_VALUE        316
+#define _APS_NEXT_COMMAND_VALUE         32792
+#define _APS_NEXT_CONTROL_VALUE         1004
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif
