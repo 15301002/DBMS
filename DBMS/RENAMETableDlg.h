@@ -13,7 +13,7 @@ public:
 
 // 对话框数据
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_ALTER_TABLE };
+	enum { IDD = IDD_RENAME_TABLE };
 #endif
 
 protected:
@@ -22,6 +22,10 @@ protected:
 	DECLARE_MESSAGE_MAP()
 private:
 	CString newTableName;
+	CString oldName;
 public:
 	CString GetNewTableName();
+	void SetDatabaseName(CString name);
+	void SetOldTableName(CString oldName);
+	CString databaseName;
 };

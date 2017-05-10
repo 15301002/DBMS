@@ -14,6 +14,7 @@ IMPLEMENT_DYNAMIC(CRENAMETableDlg, CDialogEx)
 CRENAMETableDlg::CRENAMETableDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_RENAME_TABLE, pParent)
 	, newTableName(_T(""))
+	, databaseName(_T(""))
 {
 
 }
@@ -26,10 +27,22 @@ void CRENAMETableDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_NEW_TABLE_NAME, newTableName);
+	DDX_Text(pDX, IDC_OLD_DATABASE_NAME, databaseName);
+	DDX_Text(pDX, IDC_OLD_TABLE_NAME, oldName);
 }
 
 CString CRENAMETableDlg::GetNewTableName(){
 	return newTableName;
+}
+
+void CRENAMETableDlg::SetDatabaseName(CString name)
+{
+	this->databaseName = name;
+}
+
+void CRENAMETableDlg::SetOldTableName(CString oldName)
+{
+	this->oldName = oldName;
 }
 
 

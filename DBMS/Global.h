@@ -6,7 +6,9 @@
 
 #define UPDATE_CREATE_TABLE		0x04
 #define UPDATE_DROP_TABLE		0x05
-#define UPDATE_ALTER_TABLE		0x06
+#define UPDATE_RENAME_TABLE		0x06
+
+#define UPDATE_ADD_FIELD		0x07
 
 #define MENU_DATABASE			1
 #define MENU_TABLE				2

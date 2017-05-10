@@ -16,6 +16,7 @@
 #include "AppException.h"
 #include "Global.h"
 #include "RENAMETableDlg.h"
+#include "ADDFieldDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -31,7 +32,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_DATABASES_DROP, &CMainFrame::OnDatabasesDrop)
 	ON_COMMAND(ID_DATABASES_OPEN, &CMainFrame::OnDatabasesOpen)
 	ON_COMMAND(ID_TABLE_CREATE, &CMainFrame::OnTableCreate)
-	ON_COMMAND(ID_TABLE_ALTER, &CMainFrame::OnTableAlter)
+	ON_COMMAND(ID_TABLE_ALTER, &CMainFrame::OnTableRename)
+	ON_COMMAND(ID_TABLE_RENAME, &CMainFrame::OnTableRename)
+	ON_COMMAND(ID_FIELD_ADD, &CMainFrame::OnFieldAdd)
 END_MESSAGE_MAP()
 
 static UINT indicators[] = {
@@ -219,13 +222,72 @@ CTableEntity* CDBMSDoc::CreateTable(CString strName){
 	return pTable;
 }
 
-void CMainFrame::OnTableAlter()
+
+
+void CMainFrame::OnTableRename()
 {
 	// TODO: 在此添加命令处理程序代码
 	CRENAMETableDlg dlg;
+	CDBMSDoc* pDoc = (CDBMSDoc*)this->GetActiveDocument();
+	dlg.SetOldTableName(pDoc->GetSelectedTB()->GetName());
+	dlg.SetDatabaseName(pDoc->GetDBEntity().GetName());
 	int res = dlg.DoModal();
 	if (res == IDOK) {
-		CDBMSDoc* pDoc = (CDBMSDoc*)this->GetActiveDocument();
 
+		int nCount = pDoc->GetTableNum();
+		for (int i = 0; i < nCount; i++) {
+			CString strName = pDoc->GetTBAt(i)->GetName();
+			if (dlg.GetNewTableName() == strName) {
+				AfxMessageBox(_T("The table has been existed！"));
+				return;
+			}
+		}
+		pDoc->RenameTable(dlg.GetNewTableName());
+
+		pDoc->UpdateAllViews(NULL, UPDATE_RENAME_TABLE, NULL);
+	}
+}
+
+
+
+void CMainFrame::OnFieldAdd()
+{
+	// TODO: 在此添加命令处理程序代码
+	// Get the object of document
+	CDBMSDoc* pDoc = (CDBMSDoc*)this->GetActiveDocument();
+	CTableEntity* pTable = pDoc->GetSelectedTB();
+	if (pTable != NULL)
+	{
+		// Create and display the fields dialog box
+		CADDFieldDlg dlg;
+		int nRes = dlg.DoModal();
+
+		if (nRes == IDOK){
+			CFieldEntity field(dlg.GetFieldName(), 0, 0, 0);
+			// Decide whether the field exists
+			int nCount = pTable->GetFieldNum();
+			for (int i = 0; i < nCount; i++)
+			{
+				if (field.GetName() == pTable->GetFieldAt(i)->GetName())
+				{
+					AfxMessageBox(_T("The field has been existed！"));
+					return;
+				}
+			}
+			// Add field
+			pDoc->AddField(field);
+			// If there has exception information, prompt exception
+			CString strError = pDoc->GetError();
+			if (strError.GetLength() != 0)
+			{
+				AfxMessageBox(strError);
+				pDoc->SetError(_T(""));
+				return;
+			}
+
+			// If the added field is not empty, update the view
+			pDoc->UpdateAllViews(NULL, UPDATE_ADD_FIELD, &field);
+			
+		}
 	}
 }

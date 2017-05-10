@@ -18,5 +18,6 @@ public:
 	bool GetFields(const CString strFilepath, CTableEntity &te);
 	// Alert table
 	bool AlterTable(const CString strFilePath, CTableEntity &te);
+	bool RenameTable(CString strFilePath, CString oldName, CTableEntity & e);
 };
 

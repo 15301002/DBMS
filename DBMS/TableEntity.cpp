@@ -2,9 +2,27 @@
 #include "TableEntity.h"
 #include "CharUtil.h"
 
-CTableEntity::CTableEntity(CString strName){}
+CTableEntity::CTableEntity(CString strName){
+	this->strName = strName;
+	strTdPath = _T("");
+	strTrdPath = _T("");
+	strTicPath = _T("");
+	strTidPath = _T("");
+	nRecordNum = 0;
+	::GetLocalTime(&tCtTime);
+	tLMTime = tCtTime;
+}
 
-CTableEntity::CTableEntity(){}
+CTableEntity::CTableEntity(){
+	strName = _T("");
+	strTdPath = _T("");
+	strTrdPath = _T("");
+	strTicPath = _T("");
+	strTidPath = _T("");
+	nRecordNum = 0;
+	::GetLocalTime(&tCtTime);
+	tLMTime = tCtTime;
+}
 
 CTableEntity::~CTableEntity(){}
 
@@ -33,12 +51,15 @@ void CTableEntity::SetTable(Table tb)
 
 CFieldEntity * CTableEntity::AddField(CFieldEntity & field)
 {
-	return nullptr;
+	CFieldEntity* pField = new CFieldEntity(field);
+	arrFields.Add(pField);
+
+	return pField;
 }
 
 CFieldEntity * CTableEntity::GetFieldAt(int index)
 {
-	return nullptr;
+	return arrFields.GetAt(index);
 }
 
 void CTableEntity::SetName(CString name) {
@@ -65,8 +86,13 @@ void CTableEntity::SetCtTime(SYSTEMTIME time) {
 	tCtTime = time;
 }
 
-void CTableEntity::SetLMTime(SYSTEMTIME time) {
-	tLMTime = time;
+void CTableEntity::SetLMTime() {
+	::GetLocalTime(&tLMTime);
+}
+
+void CTableEntity::SetLMTime(SYSTEMTIME time)
+{
+	this->tLMTime = time;
 }
 
 CString CTableEntity::GetName() {

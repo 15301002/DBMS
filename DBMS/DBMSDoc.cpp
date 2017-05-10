@@ -79,6 +79,16 @@ int CDBMSDoc::GetTableNum()
 	return arrTB.GetCount();
 }
 
+void CDBMSDoc::SetSelectedTB(CTableEntity * e)
+{
+	this->selectedTB = e;
+}
+
+CTableEntity * CDBMSDoc::GetSelectedTB()
+{
+	return selectedTB;
+}
+
 
 
 CDBMSDoc::~CDBMSDoc(){}
@@ -257,5 +267,59 @@ void CDBMSDoc::LoadTables(){
 	} catch (CAppException* e){
 		strError = e->GetErrorMessage();
 		delete e;
+	}
+}
+
+
+void CDBMSDoc::RenameTable(CString newName) {
+	CTableLogic tbLogic;
+
+	try {
+		int nCount = arrTB.GetCount();
+		for (int i = 0; i < nCount; i++) {
+
+			CTableEntity* pTable = arrTB.GetAt(i);
+
+			CTableEntity newTable(newName);
+			newTable.SetCtTime(pTable->GetCtTime());
+			newTable.SetLMTime();
+
+
+			if (pTable->GetName() == selectedTB->GetName()) {
+				if (tbLogic.RenameTable(dbEntity.GetName(), selectedTB->GetName(), newTable)) {
+					pTable->SetName(newName);
+					pTable->SetLMTime(newTable.GETLMTime());
+					break;
+				}
+			}
+		}
+
+	}
+	catch (CAppException* e) {
+		strError = e->GetErrorMessage();
+		delete e;
+	}
+}
+
+CFieldEntity* CDBMSDoc::AddField(CFieldEntity &field)
+{
+	CTableLogic tbLogic;
+	try
+	{
+		if (tbLogic.AddField(dbEntity.GetName(), *selectedTB, field) == false)
+		{
+			return NULL;
+		}
+
+		int nCount = selectedTB->GetFieldNum();
+
+		CFieldEntity* pField = selectedTB->GetFieldAt(nCount - 1);
+		return pField;
+	}
+	catch (CAppException* e)
+	{
+		strError = e->GetErrorMessage();
+		delete e;
+		return NULL;
 	}
 }

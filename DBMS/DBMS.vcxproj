@@ -185,6 +185,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ADDFieldDlg.h" />
     <ClInclude Include="RENAMETableDlg.h" />
     <ClInclude Include="AppException.h" />
     <ClInclude Include="CharUtil.h" />
@@ -212,6 +213,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ADDFieldDlg.cpp" />
     <ClCompile Include="RENAMETableDlg.cpp" />
     <ClCompile Include="AppException.cpp" />
     <ClCompile Include="CharUtil.cpp" />

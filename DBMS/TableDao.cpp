@@ -44,6 +44,33 @@ bool CTableDao::Create(const CString strFilePath, CTableEntity & te)
 
 bool CTableDao::AddField(const CString strFilePath, CFieldEntity & fe)
 {
+	try
+	{
+		CFile file;
+		// Open file
+		if (file.Open(strFilePath, CFile::modeWrite | CFile::shareDenyWrite) == FALSE)
+		{
+			return false;
+		}
+
+		// Add field informaiton
+		file.SeekToEnd();
+		Field fb = fe.GetField();
+		file.Write(&fb, sizeof(Field));
+
+		// Close file
+		file.Close();
+		return true;
+	}
+	catch (CException* e)
+	{
+		e->Delete();
+		throw new CAppException(_T("Failed to add field!"));
+	}
+	catch (...)
+	{
+		throw new CAppException(_T("Failed to add field!"));
+	}
 	return false;
 }
 
@@ -150,6 +177,52 @@ bool CTableDao::AlterTable(const CString strFilePath, CTableEntity &te)
 			{
 				file.Seek(lOffset, CFile::begin);// The file pointer points to the position of the previous record
 				file.Write(&te.GetTable(), sizeof(Table));// Alter the table information
+				flag = true;
+				break;
+			}
+			lOffset = file.GetPosition();
+		}
+
+		// Close file
+		file.Close();
+		return flag;
+	}
+	catch (CException* e)
+	{
+		e->Delete();
+		throw new CAppException(_T("Failed to alert table!"));
+	}
+	catch (...)
+	{
+		throw new CAppException(_T("Failed to alert table!"));
+	}
+	return false;
+}
+
+bool CTableDao::RenameTable(CString strFilePath, CString oldName, CTableEntity &e) {
+	try
+	{
+		CFile file;
+		// Open file
+		if (file.Open(strFilePath, CFile::modeReadWrite | CFile::shareDenyWrite) == FALSE)
+		{
+			return false;
+		}
+
+		file.SeekToBegin();
+		long lOffset = file.GetPosition();
+
+		bool flag = false;
+		Table tb;
+		CString strName;// Table name
+		while (file.Read(&tb, sizeof(Table)) > 0)
+		{
+			strName = CCharUtil::ToString(tb.name, sizeof(VARCHAR));
+			// Compare the table name
+			if (oldName.Compare(strName) == 0)
+			{
+				file.Seek(lOffset, CFile::begin);// The file pointer points to the position of the previous record
+				file.Write(&e.GetTable(), sizeof(Table));// Alter the table information
 				flag = true;
 				break;
 			}

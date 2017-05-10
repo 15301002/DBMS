@@ -44,7 +44,8 @@ public:
 	afx_msg void OnDatabasesDrop();
 	afx_msg void OnDatabasesOpen();
 	afx_msg void OnTableCreate();
-	afx_msg void OnTableAlter();
+	afx_msg void OnTableRename();
+	afx_msg void OnFieldAdd();
 };
 
 

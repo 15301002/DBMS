@@ -28,6 +28,7 @@ public :
 	void SetTicPath(CString path);
 	void SetTidPath(CString path);
 	void SetCtTime(SYSTEMTIME time);
+	void SetLMTime();
 	void SetLMTime(SYSTEMTIME time);
 
 	CString GetName();

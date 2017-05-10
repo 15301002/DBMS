@@ -5,12 +5,22 @@ CFieldEntity::CFieldEntity()
 {
 }
 
-CFieldEntity::CFieldEntity(CFieldEntity &)
+CFieldEntity::CFieldEntity(CFieldEntity &e)
 {
+	strName = e.GetName();
+	nType = e.GetType();
+	nParam = e.GetParam();
+	tLMTime = e.GetLMTime();
+	nIntegrities = e.GetIntegerities();
 }
 
-CFieldEntity::CFieldEntity(CString, int, int, int)
+CFieldEntity::CFieldEntity(CString strName, int nType, int nParam, int nIntegrities)
 {
+	this->strName = strName;
+	this->nType = nType;
+	this->nParam = nParam;
+	this->nIntegrities = nIntegrities;
+	::GetLocalTime(&tLMTime);
 }
 
 CFieldEntity::~CFieldEntity(){}
@@ -53,6 +63,11 @@ void CFieldEntity::SetLMTime(SYSTEMTIME time){
 	tLMTime = time;
 }
 
+void CFieldEntity::SetIntegerities(int integerites)
+{
+	this->nIntegrities = integerites;
+}
+
 CString CFieldEntity::GetName() {
 	return strName;
 }
@@ -67,4 +82,9 @@ int CFieldEntity::GetParam() {
 
 SYSTEMTIME CFieldEntity::GetLMTime() {
 	return tLMTime;
+}
+
+int CFieldEntity::GetIntegerities()
+{
+	return nIntegrities;
 }

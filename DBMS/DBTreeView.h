@@ -23,6 +23,7 @@ public:
 	virtual void OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/);
 	HTREEITEM AddTableNode(HTREEITEM hRootNode, CTableEntity * pTable);
 	HTREEITEM AddFieldNode(CFieldEntity * pField, HTREEITEM hTableItem);
+	HTREEITEM GetTableItem(CString strDBName, CString strTableName);
 	afx_msg void OnTvnSelchanged(NMHDR * pNMHDR, LRESULT * pResult);
 	afx_msg void OnNMRClick(NMHDR * pNMHDR, LRESULT * pResult);
 };

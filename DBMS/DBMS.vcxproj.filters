@@ -136,7 +136,10 @@
       <Filter>View\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RENAMETableDlg.h">
-      <Filter>View</Filter>
+      <Filter>View\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ADDFieldDlg.h">
+      <Filter>View\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +204,9 @@
       <Filter>View\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RENAMETableDlg.cpp">
+      <Filter>View\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ADDFieldDlg.cpp">
       <Filter>View\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

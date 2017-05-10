@@ -15,10 +15,10 @@ protected: // 仅从序列化创建
 
 private:
 	CDBEntity dbEntity;
+	CTableEntity *selectedTB;
 	CString strError;
 	DBARR arrDB;
 	TABLEARR arrTB;
-
 // 特性
 public:
 	CString GetError();
@@ -29,6 +29,8 @@ public:
 	int GetDBNum();
 	CTableEntity *GetTBAt(int index);
 	int GetTableNum();
+	void SetSelectedTB(CTableEntity *e);
+	CTableEntity *GetSelectedTB();
 
 // 操作
 public:
@@ -51,6 +53,9 @@ public:
 	CDBEntity * CreateDatabase();
 	void LoadDatabase();
 	void LoadTables();
+	void LoadFields();
+	void RenameTable(CString newName);
+	CFieldEntity * AddField(CFieldEntity & field);
 	CTableEntity * CreateTable(CString strName);
 #endif
 
