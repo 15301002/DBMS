@@ -16,7 +16,6 @@
 #define IDC_NEW_TABLE_NAME              1004
 #define IDC_FIELD_NAME                  1004
 #define IDC_OLD_DATABASE_NAME           1005
-#define IDC_DEFAULE                     1005
 #define IDC_DEFAULT                     1005
 #define IDC_DATA_TYPE                   1006
 #define IDC_NOT_NULL                    1007
@@ -39,13 +38,17 @@
 #define ID_DATABASES_OPEN               32790
 #define ID_FIELD_DROP                   32791
 #define ID_TABLE_RENAME                 32792
+#define ID_RECORD_INSERTRECORD          32793
+#define ID_RECORD_SELECTRECORD          32794
+#define ID_RECORD_INSERT                32795
+#define ID_RECORD_SELECT                32796
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        318
-#define _APS_NEXT_COMMAND_VALUE         32793
+#define _APS_NEXT_COMMAND_VALUE         32797
 #define _APS_NEXT_CONTROL_VALUE         1008
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

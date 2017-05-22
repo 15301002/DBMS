@@ -8,8 +8,9 @@
 #ifndef SHARED_HANDLERS
 #include "DBMS.h"
 #include "DBLogic.h"
-#include "AppException.h"
 #include "TableLogic.h"
+#include "RecordLogic.h"
+#include "AppException.h"
 #endif
 
 #include "DBMSDoc.h"
@@ -46,17 +47,14 @@ void CDBMSDoc::SetError(CString error)
 	this->strError = error;
 }
 
-CDBEntity CDBMSDoc::GetDBEntity()
+CDBEntity *CDBMSDoc::GetDBEntity()
 {
 	return dbEntity;
 }
 
-void CDBMSDoc::SetDBEntity(CDBEntity e)
+void CDBMSDoc::SetDBEntity(CDBEntity *e)
 {
-	this->dbEntity.SetName(e.GetName());
-	this->dbEntity.SetCrtTime(e.GetCrtTime());
-	this->dbEntity.SetPath(e.GetPath());
-	this->dbEntity.SetType(e.GetType());
+	this->dbEntity = e;
 }
 
 CDBEntity* CDBMSDoc::GetDBAt(int index)
@@ -99,18 +97,19 @@ BOOL CDBMSDoc::OnNewDocument(){
 
 	// TODO: 在此添加重新初始化代码
 	// (SDI 文档将重用该文档)
-	dbEntity.SetName(_T("default"));
+	dbEntity = new CDBEntity(_T("default"));
+	selectedTB = NULL;
 
 	CDBLogic* dbLogic = new CDBLogic();
 	try {
-		if (!dbLogic->GetDatabase(dbEntity)){
-			if (!dbLogic->CreateDatabase(dbEntity)){
+		if (!dbLogic->GetDatabase(*dbEntity)){
+			if (!dbLogic->CreateDatabase(*dbEntity)){
 				throw new CAppException(_T("Failed to create database！"));
 			}
 		}
 		delete dbLogic;
 		CString strTitle;
-		strTitle.Format(_T("Database(%s)"), dbEntity.GetName());
+		strTitle.Format(_T("Database(%s)"), dbEntity->GetName());
 		this->SetTitle(strTitle);
 	}
 	catch (CAppException* e){
@@ -207,9 +206,9 @@ void CDBMSDoc::Dump(CDumpContext& dc) const
 
 
 // CDBMSDoc 命令
-CDBEntity* CDBMSDoc::CreateDatabase()
+CDBEntity* CDBMSDoc::CreateDatabase(CString databaseName)
 {
-	CDBEntity* pDB = &dbEntity;
+	CDBEntity* pDB = new CDBEntity(databaseName);
 	CDBLogic dbLogic;
 	try{
 		if (dbLogic.CreateDatabase(*pDB) == true){
@@ -263,7 +262,7 @@ void CDBMSDoc::LoadTables(){
 
 		arrTB.RemoveAll();
 
-		tbLogic.GetTables(dbEntity.GetName(), arrTB);
+		tbLogic.GetTables(dbEntity->GetName(), arrTB);
 	} catch (CAppException* e){
 		strError = e->GetErrorMessage();
 		delete e;
@@ -286,7 +285,7 @@ void CDBMSDoc::RenameTable(CString newName) {
 
 
 			if (pTable->GetName() == selectedTB->GetName()) {
-				if (tbLogic.RenameTable(dbEntity.GetName(), selectedTB->GetName(), newTable)) {
+				if (tbLogic.RenameTable(dbEntity->GetName(), selectedTB->GetName(), newTable)) {
 					pTable->SetName(newName);
 					pTable->SetLMTime(newTable.GETLMTime());
 					break;
@@ -301,12 +300,14 @@ void CDBMSDoc::RenameTable(CString newName) {
 	}
 }
 
+
+
 CFieldEntity* CDBMSDoc::AddField(CFieldEntity &field)
 {
 	CTableLogic tbLogic;
 	try
 	{
-		if (tbLogic.AddField(dbEntity.GetName(), *selectedTB, field) == false)
+		if (tbLogic.AddField(dbEntity->GetName(), *selectedTB, field) == false)
 		{
 			return NULL;
 		}
@@ -321,5 +322,110 @@ CFieldEntity* CDBMSDoc::AddField(CFieldEntity &field)
 		strError = e->GetErrorMessage();
 		delete e;
 		return NULL;
+	}
+}
+
+CRecordEntity* CDBMSDoc::InsertRecord(CRecordEntity &record)
+{
+	CRecordLogic recordLogic;
+	CRecordEntity* pRecord = new CRecordEntity(record);
+	try
+	{
+		// Insert record
+		if (recordLogic.Insert(dbEntity->GetName(), *selectedTB, record) == true)
+		{
+			// Save the record which is added successfully to the record array.
+			arrRecord.Add(pRecord);
+			return pRecord;
+		}
+	}
+	catch (CAppException* e)
+	{
+		if (pRecord != NULL)
+		{
+			delete pRecord;
+			pRecord = NULL;
+		}
+		strError = e->GetErrorMessage();
+		delete e;
+	}
+
+	return NULL;
+}
+
+/*****************************************************
+[FunctionName] GetRecordNum
+[Function]	Get the numbet of the record
+[Argument]	void
+[ReturnedValue] int: Number of the record
+*****************************************************/
+int CDBMSDoc::GetRecordNum()
+{
+	return arrRecord.GetCount();
+}
+
+/*****************************************************
+[FunctionName] GetRecord
+[Function]	Get a record in the array according to the index
+[Argument]	int nIndex: Index
+[ReturnedValue] CRecordEntity*: Pointer to the object of the record entity.
+*****************************************************/
+CRecordEntity* CDBMSDoc::GetRecord(int nIndex)
+{
+	return (CRecordEntity*)arrRecord.GetAt(nIndex);
+}
+
+/*****************************************************
+[FunctionName] LoadRecord
+[Function]	Query record
+[Argument]	void
+[ReturnedValue] void
+*****************************************************/
+void CDBMSDoc::LoadRecord(void)
+{
+	// Get the number of table in the table array
+	int nCount = arrRecord.GetCount();
+
+	// Release the each element in the array.
+	for (int i = 0; i < nCount; i++)
+	{
+		CRecordEntity* pRecord = (CRecordEntity*)arrRecord.GetAt(i);
+
+		delete pRecord;
+		pRecord = NULL;
+	}
+
+	// Empty array
+	arrRecord.RemoveAll();
+
+	try
+	{
+		CRecordLogic recordLogic;
+		// Decide whether get record successfully
+		if (recordLogic.SelectAll(*selectedTB, arrRecord) == false)
+		{
+			// If failed, decide the existing records
+			nCount = arrRecord.GetCount();
+
+			// If exists record, empty it
+			if (nCount > 0)
+			{
+				for (int i = 0; i < nCount; i++)
+				{
+					CRecordEntity* pRecord = (CRecordEntity*)arrRecord.GetAt(i);
+
+					delete pRecord;
+					pRecord = NULL;
+				}
+
+				arrRecord.RemoveAll();
+			}
+		}
+	}
+	catch (CAppException* e)
+	{
+		// If there is exception, save exception information and delete the exception object
+		strError = e->GetErrorMessage();
+		delete e;
 	}
 }

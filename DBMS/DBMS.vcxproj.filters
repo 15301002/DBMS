@@ -141,6 +141,15 @@
     <ClInclude Include="ADDFieldDlg.h">
       <Filter>View\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TableView.h">
+      <Filter>View\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RecordLogic.h" />
+    <ClInclude Include="RecordDao.h" />
+    <ClInclude Include="TimeUtil.h" />
+    <ClInclude Include="RecordsView.h">
+      <Filter>View\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DBMSDoc.cpp">
@@ -207,6 +216,15 @@
       <Filter>View\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ADDFieldDlg.cpp">
+      <Filter>View\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TableView.cpp">
+      <Filter>View\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RecordLogic.cpp" />
+    <ClCompile Include="RecordDao.cpp" />
+    <ClCompile Include="TimeUtil.cpp" />
+    <ClCompile Include="RecordsView.cpp">
       <Filter>View\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

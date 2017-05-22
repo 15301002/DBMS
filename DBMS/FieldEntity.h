@@ -15,6 +15,7 @@ public :
 	~CFieldEntity();
 	void SetField(Field fd);
 	Field GetField();
+	CString GetTypeName(int nDataType);
 public :
 	
 	void SetName(CString name);

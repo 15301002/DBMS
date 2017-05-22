@@ -30,6 +30,7 @@ public :
 	void SetCtTime(SYSTEMTIME time);
 	void SetLMTime();
 	void SetLMTime(SYSTEMTIME time);
+	void SetRecordNum(int num);
 
 	CString GetName();
 	CString GetTdPath();
@@ -39,6 +40,7 @@ public :
 	SYSTEMTIME GetCtTime();
 	SYSTEMTIME GETLMTime();
 
+	int GetRecordNum();
 	int GetFieldNum();
 };
 

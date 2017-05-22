@@ -5,11 +5,6 @@ typedef bool		BOOL_;
 typedef double		DOUBLE;
 typedef char		VARCHAR[256];
 typedef SYSTEMTIME	DATETIME;
-typedef struct DATE_ {
-	WORD wYear;
-	WORD wMonth;
-	WORD wDay;
-}DATE_;
 
 typedef struct Database{
 	BOOL_		type;

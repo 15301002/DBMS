@@ -95,6 +95,11 @@ void CTableEntity::SetLMTime(SYSTEMTIME time)
 	this->tLMTime = time;
 }
 
+void CTableEntity::SetRecordNum(int num)
+{
+	nRecordNum = num;
+}
+
 CString CTableEntity::GetName() {
 	return strName;
 }
@@ -121,6 +126,11 @@ SYSTEMTIME CTableEntity::GetCtTime() {
 
 SYSTEMTIME CTableEntity::GETLMTime() {
 	return tLMTime;
+}
+
+int CTableEntity::GetRecordNum()
+{
+	return nRecordNum;
 }
 
 int CTableEntity::GetFieldNum()

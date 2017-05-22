@@ -6,6 +6,7 @@
 #pragma once
 #include "DBEntity.h"
 #include "TableEntity.h"
+#include "RecordEntity.h"
 
 class CDBMSDoc : public CDocument
 {
@@ -14,23 +15,37 @@ protected: // 仅从序列化创建
 	DECLARE_DYNCREATE(CDBMSDoc)
 
 private:
-	CDBEntity dbEntity;
+	CDBEntity *dbEntity;
 	CTableEntity *selectedTB;
 	CString strError;
+
 	DBARR arrDB;
 	TABLEARR arrTB;
+	RECORDARR arrRecord;
 // 特性
 public:
 	CString GetError();
 	void SetError(CString error);
-	CDBEntity GetDBEntity();
-	void SetDBEntity(CDBEntity e);
+	void SetDBEntity(CDBEntity *e);
+	void SetSelectedTB(CTableEntity *e);
+
+	CDBEntity *GetDBEntity();
 	CDBEntity * GetDBAt(int index);
 	int GetDBNum();
 	CTableEntity *GetTBAt(int index);
 	int GetTableNum();
-	void SetSelectedTB(CTableEntity *e);
 	CTableEntity *GetSelectedTB();
+
+	CDBEntity * CreateDatabase(CString databaseName);
+	void LoadDatabase();
+	void LoadTables();
+	void RenameTable(CString newName);
+	CFieldEntity * AddField(CFieldEntity & field);
+	CRecordEntity * InsertRecord(CRecordEntity & record);
+	int GetRecordNum();
+	CRecordEntity * GetRecord(int nIndex);
+	void LoadRecord(void);
+	CTableEntity * CreateTable(CString strName);
 
 // 操作
 public:
@@ -50,13 +65,6 @@ public:
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
-	CDBEntity * CreateDatabase();
-	void LoadDatabase();
-	void LoadTables();
-	void LoadFields();
-	void RenameTable(CString newName);
-	CFieldEntity * AddField(CFieldEntity & field);
-	CTableEntity * CreateTable(CString strName);
 #endif
 
 protected:

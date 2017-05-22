@@ -23,18 +23,26 @@ protected:
 private:
 	CString fieldName;
 	CString defaultVal;
-	bool isNotNull;
-	bool isPrimaryKey;
+	int datatype;
+	int param;
+	CString type;
+	BOOL isNotNull;
+	BOOL isPrimaryKey;
+
+	CComboBox m_cbType;
 
 public:
 	CString GetFieldName();
 	CString GetDefaultVal();
+	int GetDatatype();
+	int GetParam();
 
-	bool IsNotNull();
-	bool IsPrimaryKey();
+	BOOL IsNotNull();
+	BOOL IsPrimaryKey();
 
 	
 	afx_msg void OnBnClickedNotNull();
 	afx_msg void OnBnClickedPrimaryKey();
 	afx_msg void OnBnClickedOk();
+	virtual BOOL OnInitDialog();
 };

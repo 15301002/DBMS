@@ -17,7 +17,8 @@
 #include "Global.h"
 #include "RENAMETableDlg.h"
 #include "ADDFieldDlg.h"
-
+#include "TableView.h"
+#include "RecordsView.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -35,6 +36,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_TABLE_ALTER, &CMainFrame::OnTableRename)
 	ON_COMMAND(ID_TABLE_RENAME, &CMainFrame::OnTableRename)
 	ON_COMMAND(ID_FIELD_ADD, &CMainFrame::OnFieldAdd)
+	ON_COMMAND(ID_RECORD_INSERTRECORD, &CMainFrame::OnRecordInsert)
 END_MESSAGE_MAP()
 
 static UINT indicators[] = {
@@ -43,6 +45,7 @@ static UINT indicators[] = {
 	ID_INDICATOR_NUM,
 	ID_INDICATOR_SCRL,
 };
+
 
 // CMainFrame 构造/析构
 
@@ -119,16 +122,19 @@ void CMainFrame::OnDatabaseCreate(){
 	CCREATEDatabaseDlg dlg;
 	int res = dlg.DoModal();
 	if (res == IDOK) {
-		CDBEntity* e = new CDBEntity(dlg.GetDatabaseName());
 		//	Get the object of document
 		CDBMSDoc* pDoc = (CDBMSDoc*)this->GetActiveDocument();
-		pDoc->SetDBEntity(*e);
-		pDoc->CreateDatabase();
-		CString strTitle;
-		strTitle.Format(_T("Database(%s)"), e->GetName());
-		pDoc->SetTitle(strTitle);
-		delete e;
-		pDoc->UpdateAllViews(NULL, UPDATE_CREATE_DATABASE, & (pDoc->GetDBEntity()));
+		int nCount = pDoc->GetDBNum();
+		for (int i = 0; i < nCount; i++){
+			CString strName = pDoc->GetDBAt(i)->GetName();
+			if (dlg.GetDatabaseName().CollateNoCase(strName) == 0) {
+				AfxMessageBox(_T("The Database has been existed！"));
+				return;
+			}
+		}
+		CDBEntity *eDB = pDoc->CreateDatabase(dlg.GetDatabaseName());
+
+		pDoc->UpdateAllViews(NULL, UPDATE_CREATE_DATABASE, eDB);
 	}
 }
 
@@ -184,7 +190,7 @@ void CMainFrame::OnTableCreate(){
 				return;
 			}
 			if (pTable != NULL){
-				//SwitchView(TABLE);
+				SwitchView(TABLE);
 				pDoc->UpdateAllViews(NULL, UPDATE_CREATE_TABLE, pTable);
 			}
 		}
@@ -198,25 +204,25 @@ CTableEntity* CDBMSDoc::CreateTable(CString strName){
 	pTable->SetName(strName);
 	CTableLogic tbLogic;
 	try{
-		// Decide whether creates table successfully
-		if (tbLogic.CreateTable(dbEntity.GetName(), *pTable) == true){
-			// If creates table successfully, the created table information would be saved to the array.
+
+		if (tbLogic.CreateTable(dbEntity->GetName(), *pTable) == true){
+
 			arrTB.Add(pTable);
 		} else {
-			// If creates failure, release the memory allocated by new
+
 			delete pTable;
 			pTable = NULL;
 		}
 	}
-	catch (CAppException* e){	// Catch exception
-		// If there is exception, release the memory allocated by new
+	catch (CAppException* e){
+
 		if (pTable != NULL){
 			delete pTable;
 			pTable = NULL;
 		}
-		// Get exception information
+
 		strError = e->GetErrorMessage();
-		// Delete exception
+
 		delete e;
 	}
 	return pTable;
@@ -227,25 +233,29 @@ CTableEntity* CDBMSDoc::CreateTable(CString strName){
 void CMainFrame::OnTableRename()
 {
 	// TODO: 在此添加命令处理程序代码
-	CRENAMETableDlg dlg;
 	CDBMSDoc* pDoc = (CDBMSDoc*)this->GetActiveDocument();
-	dlg.SetOldTableName(pDoc->GetSelectedTB()->GetName());
-	dlg.SetDatabaseName(pDoc->GetDBEntity().GetName());
-	int res = dlg.DoModal();
-	if (res == IDOK) {
+	if (pDoc->GetSelectedTB() != NULL) {
+		CRENAMETableDlg dlg;
+		dlg.SetOldTableName(pDoc->GetSelectedTB()->GetName());
+		dlg.SetDatabaseName(pDoc->GetDBEntity()->GetName());
+		int res = dlg.DoModal();
+		if (res == IDOK) {
 
-		int nCount = pDoc->GetTableNum();
-		for (int i = 0; i < nCount; i++) {
-			CString strName = pDoc->GetTBAt(i)->GetName();
-			if (dlg.GetNewTableName() == strName) {
-				AfxMessageBox(_T("The table has been existed！"));
-				return;
+			int nCount = pDoc->GetTableNum();
+			for (int i = 0; i < nCount; i++) {
+				CString strName = pDoc->GetTBAt(i)->GetName();
+				if (dlg.GetNewTableName() == strName) {
+					AfxMessageBox(_T("The table has been existed！"));
+					return;
+				}
 			}
-		}
-		pDoc->RenameTable(dlg.GetNewTableName());
+			pDoc->RenameTable(dlg.GetNewTableName());
 
-		pDoc->UpdateAllViews(NULL, UPDATE_RENAME_TABLE, NULL);
+			pDoc->UpdateAllViews(NULL, UPDATE_RENAME_TABLE, NULL);
+		}
 	}
+	else
+		AfxMessageBox(_T("You should choose a Table!"));
 }
 
 
@@ -256,15 +266,15 @@ void CMainFrame::OnFieldAdd()
 	// Get the object of document
 	CDBMSDoc* pDoc = (CDBMSDoc*)this->GetActiveDocument();
 	CTableEntity* pTable = pDoc->GetSelectedTB();
-	if (pTable != NULL)
-	{
-		// Create and display the fields dialog box
+	if (pTable != NULL) {
 		CADDFieldDlg dlg;
 		int nRes = dlg.DoModal();
 
 		if (nRes == IDOK){
-			CFieldEntity field(dlg.GetFieldName(), 0, 0, 0);
-			// Decide whether the field exists
+
+			CFieldEntity field(dlg.GetFieldName(), dlg.GetDatatype(), 0, 0);
+
+
 			int nCount = pTable->GetFieldNum();
 			for (int i = 0; i < nCount; i++)
 			{
@@ -291,3 +301,60 @@ void CMainFrame::OnFieldAdd()
 		}
 	}
 }
+
+void CMainFrame::SwitchView(int nViewType)
+{
+	// Get the size of the original window
+	CRect rt;
+	CView* pOldView = (CView*)m_wndSpliter.GetPane(0, 1);
+	pOldView->GetClientRect(&rt);
+
+	// Get the context
+	CCreateContext context;
+	context.m_pCurrentDoc = pOldView->GetDocument();
+	context.m_pCurrentFrame = this;
+
+	// Delete the original view
+	m_wndSpliter.DeleteView(0, 1);
+
+	// Depending on the type of view, create a new view
+	switch (nViewType)
+	{
+	case TABLE:	// Table structure view
+	{
+		// Add a new view
+		context.m_pNewViewClass = RUNTIME_CLASS(CTableView);
+		m_wndSpliter.CreateView(0, 1, RUNTIME_CLASS(CTableView), rt.Size(), &context);
+	}
+	break;
+	case RECORD:	// Record view
+	{
+		// Add new view
+		context.m_pNewViewClass = RUNTIME_CLASS(CRecordsView);
+		m_wndSpliter.CreateView(0, 1, RUNTIME_CLASS(CRecordsView), rt.Size(), &context);
+	}
+	break;
+	case DEFAULT:	// Default view
+	{
+		// Add new view
+		context.m_pNewViewClass = RUNTIME_CLASS(CTableView);
+		m_wndSpliter.CreateView(0, 1, RUNTIME_CLASS(CDBMSView), rt.Size(), &context);
+	}
+	break;
+	default:
+		break;
+	}
+
+	// Update view
+	CView* pCurView = (CView*)m_wndSpliter.GetPane(0, 1);
+	pCurView->OnInitialUpdate();
+
+	// Update window
+	m_wndSpliter.RecalcLayout();
+}
+
+void CMainFrame::OnRecordInsert()
+{
+	// TODO: 在此添加命令处理程序代码
+}
+

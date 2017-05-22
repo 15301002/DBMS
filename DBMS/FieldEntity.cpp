@@ -47,6 +47,42 @@ Field CFieldEntity::GetField()
 	return fd;
 }
 
+CString CFieldEntity::GetTypeName(int nDataType)
+{
+	CString strName = _T("");
+	switch (nDataType)
+	{
+	case CFieldEntity::DT_INTEGER:	// INT type
+	{
+		strName = _T("INT");
+		break;
+	}
+	case CFieldEntity::DT_BOOL:		// BOOL type
+	{
+		strName = _T("BOOL");
+		break;
+	}
+	case CFieldEntity::DT_DOUBLE:	// DOUBLE type
+	{
+		strName = _T("DOUBLE");
+		break;
+	}
+	case CFieldEntity::DT_VARCHAR:	// VRACHAR type
+	{
+		strName = _T("VARCHAR");
+		break;
+	}
+	case CFieldEntity::DT_DATETIME:	// DATETIME type
+	{
+		strName = _T("DATATIME");
+		break;
+	}
+	default:
+		break;
+	}
+	return strName;
+}
+
 void CFieldEntity::SetName(CString name) {
 	strName = name;
 }
@@ -67,6 +103,7 @@ void CFieldEntity::SetIntegerities(int integerites)
 {
 	this->nIntegrities = integerites;
 }
+
 
 CString CFieldEntity::GetName() {
 	return strName;

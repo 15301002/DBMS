@@ -109,21 +109,25 @@ BEGIN
     END
     POPUP "Databases(&D)"
     BEGIN
-        MENUITEM "CREATE Database(&N)\tCtrl+N", ID_DATABASE_CREATE
-        MENUITEM "DROP Database(&D)\tCtrl+D",   ID_DATABASES_DROP
-        MENUITEM "Open Databases(&O)\tCtrl+O",  ID_DATABASES_OPEN
+        MENUITEM "CREATE Database(&N)",         ID_DATABASE_CREATE
+        MENUITEM "DROP Database(&D)",           ID_DATABASES_DROP
+        MENUITEM "Open Databases(&O)",          ID_DATABASES_OPEN
     END
     POPUP "Table(&T)"
     BEGIN
-        MENUITEM "CREATE Table(&N)\tCtrl+N",    ID_TABLE_CREATE
-        MENUITEM "DROP Table(&D)\tCtrl+D",      ID_TABLE_DROP
-        MENUITEM "RENAME Table(&R)\tCtrl+R",    ID_TABLE_RENAME
+        MENUITEM "CREATE Table(&N)",            ID_TABLE_CREATE
+        MENUITEM "DROP Table(&D)",              ID_TABLE_DROP
+        MENUITEM "RENAME Table(&R)",            ID_TABLE_RENAME
     END
     POPUP "Field(&F)"
     BEGIN
         MENUITEM "ADD COLUMN(&A)",              ID_FIELD_ADD
         MENUITEM "CHANGE COLUMN(&C)",           ID_FIELD_CHANGE
         MENUITEM "DROP COLUMN(&D)",             ID_FIELD_DROP
+    END
+    POPUP "Record(&R)"
+    BEGIN
+        MENUITEM "INSERT Record(&I)",           ID_RECORD_INSERT
     END
     POPUP "Help(&H)"
     BEGIN

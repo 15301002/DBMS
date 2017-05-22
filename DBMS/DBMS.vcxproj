@@ -186,6 +186,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ADDFieldDlg.h" />
+    <ClInclude Include="RecordDao.h" />
+    <ClInclude Include="RecordLogic.h" />
+    <ClInclude Include="RecordsView.h" />
     <ClInclude Include="RENAMETableDlg.h" />
     <ClInclude Include="AppException.h" />
     <ClInclude Include="CharUtil.h" />
@@ -210,10 +213,15 @@
     <ClInclude Include="TableDao.h" />
     <ClInclude Include="TableEntity.h" />
     <ClInclude Include="TableLogic.h" />
+    <ClInclude Include="TableView.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TimeUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ADDFieldDlg.cpp" />
+    <ClCompile Include="RecordDao.cpp" />
+    <ClCompile Include="RecordLogic.cpp" />
+    <ClCompile Include="RecordsView.cpp" />
     <ClCompile Include="RENAMETableDlg.cpp" />
     <ClCompile Include="AppException.cpp" />
     <ClCompile Include="CharUtil.cpp" />
@@ -240,6 +248,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TableLogic.cpp" />
+    <ClCompile Include="TableView.cpp" />
+    <ClCompile Include="TimeUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DBMS.rc" />

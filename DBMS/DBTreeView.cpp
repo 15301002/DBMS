@@ -2,7 +2,7 @@
 #include "DBTreeView.h"
 #include "DBMSDoc.h"
 #include "Global.h"
-
+#include "MainFrm.h"
 IMPLEMENT_DYNCREATE(CDBTreeView, CTreeView)
 CDBTreeView::CDBTreeView()
 {
@@ -78,10 +78,8 @@ void CDBTreeView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		switch (lHint)
 		{
 		case UPDATE_CREATE_DATABASE: {
-			//	Get the database name
 			CString strDBName = ((CDBEntity*)pHint)->GetName();
 
-			//	Add root item
 			HTREEITEM hRoot = pTreeCtrl->InsertItem(strDBName, 0, 0, NULL);
 			pTreeCtrl->SetItemData(hRoot, MENU_DATABASE);
 
@@ -101,7 +99,7 @@ void CDBTreeView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 				CDBEntity *db = pDoc->GetDBAt(i);
 				CString strDBName = db->GetName();
 
-				pDoc->SetDBEntity(*db);
+				pDoc->SetDBEntity(db);
 				pDoc->LoadTables();
 
 				HTREEITEM hRoot = pTreeCtrl->InsertItem(strDBName, 0, 0, NULL);
@@ -168,16 +166,14 @@ HTREEITEM CDBTreeView::AddTableNode(HTREEITEM hRootNode, CTableEntity* pTable){
 		HTREEITEM hTableNode = pTreeCtrl->InsertItem(pTable->GetName(), 1, 1, hRootNode);
 
 		if (hTableNode != NULL){
-			// Add number to the table item
+
 			pTreeCtrl->SetItemData(hTableNode, MENU_TABLE);
 
-			// Add leaf item
-			HTREEITEM hColNode = pTreeCtrl->InsertItem(_T("Column"), 2, 2, hTableNode);       // Column
+			HTREEITEM hColNode = pTreeCtrl->InsertItem(_T("Column"), 2, 2, hTableNode);
 
-																								// Add number to the column item
 			pTreeCtrl->SetItemData(hColNode, MENU_RCLICK);
 
-			// Show field	
+
 			int nFieldNum = pTable->GetFieldNum();
 			for (int i = 0; i < nFieldNum; i++)
 			{
@@ -197,57 +193,22 @@ HTREEITEM CDBTreeView::AddTableNode(HTREEITEM hRootNode, CTableEntity* pTable){
 }
 
 HTREEITEM CDBTreeView::AddFieldNode(CFieldEntity* pField, HTREEITEM hTableItem){
-	// Get the child item of the table item
 	HTREEITEM hItem = pTreeCtrl->GetChildItem(hTableItem);
 
 	if (hItem != NULL){
-		// Traverse the child items of the table item
+
 		do{
-			// Get column item
 			if (pTreeCtrl->GetItemText(hItem).CompareNoCase(_T("Column")) == 0){
 				break;
 			}
 		} while ((hItem = pTreeCtrl->GetNextSiblingItem(hItem)) != NULL);
 	}
 
-	HTREEITEM hFieldNode = pTreeCtrl->InsertItem(pField->GetName(), 1, 1, hItem);       // Field
+	HTREEITEM hFieldNode = pTreeCtrl->InsertItem(pField->GetName(), 1, 1, hItem);
 
-																						  // Add a number to the field item
 	pTreeCtrl->SetItemData(hFieldNode, MENU_FIELD);
 
 	return hFieldNode;
-}
-
-HTREEITEM CDBTreeView::GetTableItem(CString strDBName, CString strTableName)
-{
-	// Get root item
-	HTREEITEM hDBNode = pTreeCtrl->GetRootItem();
-
-	// Get table item
-	HTREEITEM hTableNode = pTreeCtrl->GetChildItem(hDBNode);
-
-	CDBMSDoc* pDoc = (CDBMSDoc*)this->GetDocument();
-
-	int count = pDoc->GetDBNum();
-	int nCount = pDoc->GetTableNum();
-
-	for (int i = 0; i < count; i++) {
-		hDBNode = pTreeCtrl->GetNextItem(hDBNode, TVGN_NEXT);
-
-		if (pTreeCtrl->GetItemText(hDBNode).CompareNoCase(strDBName) == 0) {
-			CDBEntity *db = pDoc->GetDBAt(i);
-			pDoc->SetDBEntity(*db);
-		}
-
-		for (int i = 0; i < nCount; i++) {
-			hTableNode = pTreeCtrl->GetNextItem(hTableNode, TVGN_NEXT);
-			if (pTreeCtrl->GetItemText(hTableNode).CompareNoCase(strTableName) == 0)
-				pDoc->SetSelectedTB(pDoc->GetTBAt(i));
-		}
-
-	}
-	pDoc->LoadTables();
-	return NULL;
 }
 
 void CDBTreeView::OnTvnSelchanged (NMHDR *pNMHDR, LRESULT *pResult){
@@ -265,8 +226,13 @@ void CDBTreeView::OnTvnSelchanged (NMHDR *pNMHDR, LRESULT *pResult){
 			while ((hFindItem = pTreeCtrl->GetNextItem(hFindItem, TVGN_PREVIOUS)) != NULL) {
 				nIndex++;
 			}			
-			pDoc->SetDBEntity(* (pDoc->GetDBAt(nIndex)));
+			pDoc->SetDBEntity(pDoc->GetDBAt(nIndex));
 			pDoc->LoadTables();
+
+			pDoc->SetSelectedTB(NULL);
+			CString strTitle;
+			strTitle.Format(_T("Database(%s)"), pDoc->GetDBEntity()->GetName());
+			pDoc->SetTitle(strTitle);
 		}
 		else if (dwVal == MENU_TABLE) {
 			HTREEITEM hFindItem = hSelectedItem;
@@ -279,9 +245,16 @@ void CDBTreeView::OnTvnSelchanged (NMHDR *pNMHDR, LRESULT *pResult){
 			while ((hParentItem = pTreeCtrl->GetNextItem(hParentItem, TVGN_PREVIOUS)) != NULL) {
 				j++;
 			}
-			pDoc->SetDBEntity(*(pDoc->GetDBAt(j)));
+			pDoc->SetDBEntity(pDoc->GetDBAt(j));
 			pDoc->LoadTables();
 			pDoc->SetSelectedTB(pDoc->GetTBAt(i));
+
+			CString strTitle;
+			strTitle.Format(_T("Database(%s).Tabe(%s)"), pDoc->GetDBEntity()->GetName(), pDoc->GetSelectedTB()->GetName());
+			pDoc->SetTitle(strTitle);
+
+			((CMainFrame *)AfxGetMainWnd())->SwitchView(TABLE);
+			pDoc->UpdateAllViews(NULL, UPDATE_TABLE_VIEW, pDoc->GetSelectedTB());
 		}
 		else if (dwVal == MENU_FIELD) {
 			HTREEITEM hColumnItem = pTreeCtrl->GetParentItem(hSelectedItem);
@@ -296,7 +269,7 @@ void CDBTreeView::OnTvnSelchanged (NMHDR *pNMHDR, LRESULT *pResult){
 				while ((hDBItem = pTreeCtrl->GetNextItem(hDBItem, TVGN_PREVIOUS)) != NULL) {
 					j++;
 				}
-				pDoc->SetDBEntity(*(pDoc->GetDBAt(j)));
+				pDoc->SetDBEntity(pDoc->GetDBAt(j));
 				pDoc->LoadTables();
 				pDoc->SetSelectedTB(pDoc->GetTBAt(i));
 			}
