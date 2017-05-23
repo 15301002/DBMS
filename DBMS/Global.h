@@ -12,6 +12,7 @@
 #define UPDATE_ADD_FIELD		0x08
 
 #define UPDATE_INSERT_RECORD	0x09
+#define UPDATE_RECORD_VIEW		0x10
 
 #define MENU_DATABASE			1
 #define MENU_TABLE				2

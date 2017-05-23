@@ -354,40 +354,20 @@ CRecordEntity* CDBMSDoc::InsertRecord(CRecordEntity &record)
 	return NULL;
 }
 
-/*****************************************************
-[FunctionName] GetRecordNum
-[Function]	Get the numbet of the record
-[Argument]	void
-[ReturnedValue] int: Number of the record
-*****************************************************/
 int CDBMSDoc::GetRecordNum()
 {
 	return arrRecord.GetCount();
 }
 
-/*****************************************************
-[FunctionName] GetRecord
-[Function]	Get a record in the array according to the index
-[Argument]	int nIndex: Index
-[ReturnedValue] CRecordEntity*: Pointer to the object of the record entity.
-*****************************************************/
 CRecordEntity* CDBMSDoc::GetRecord(int nIndex)
 {
 	return (CRecordEntity*)arrRecord.GetAt(nIndex);
 }
 
-/*****************************************************
-[FunctionName] LoadRecord
-[Function]	Query record
-[Argument]	void
-[ReturnedValue] void
-*****************************************************/
 void CDBMSDoc::LoadRecord(void)
 {
-	// Get the number of table in the table array
 	int nCount = arrRecord.GetCount();
 
-	// Release the each element in the array.
 	for (int i = 0; i < nCount; i++)
 	{
 		CRecordEntity* pRecord = (CRecordEntity*)arrRecord.GetAt(i);
@@ -396,19 +376,16 @@ void CDBMSDoc::LoadRecord(void)
 		pRecord = NULL;
 	}
 
-	// Empty array
 	arrRecord.RemoveAll();
 
 	try
 	{
 		CRecordLogic recordLogic;
-		// Decide whether get record successfully
+
 		if (recordLogic.SelectAll(*selectedTB, arrRecord) == false)
 		{
-			// If failed, decide the existing records
 			nCount = arrRecord.GetCount();
 
-			// If exists record, empty it
 			if (nCount > 0)
 			{
 				for (int i = 0; i < nCount; i++)
@@ -425,8 +402,8 @@ void CDBMSDoc::LoadRecord(void)
 	}
 	catch (CAppException* e)
 	{
-		// If there is exception, save exception information and delete the exception object
 		strError = e->GetErrorMessage();
 		delete e;
 	}
 }
+

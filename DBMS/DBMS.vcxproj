@@ -186,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ADDFieldDlg.h" />
+    <ClInclude Include="INSERTRecordDlg.h" />
     <ClInclude Include="RecordDao.h" />
     <ClInclude Include="RecordLogic.h" />
     <ClInclude Include="RecordsView.h" />
@@ -219,6 +220,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ADDFieldDlg.cpp" />
+    <ClCompile Include="INSERTRecordDlg.cpp" />
     <ClCompile Include="RecordDao.cpp" />
     <ClCompile Include="RecordLogic.cpp" />
     <ClCompile Include="RecordsView.cpp" />

@@ -10,6 +10,7 @@
 #define IDD_CREATE_TABLE                312
 #define IDD_RENAME_TABLE                314
 #define IDD_ADD_FIELD                   316
+#define IDD_INSERT                      318
 #define IDC_DATABASE_NAME               1000
 #define IDC_TABLE_NAME                  1002
 #define IDC_OLD_TABLE_NAME              1003
@@ -19,7 +20,9 @@
 #define IDC_DEFAULT                     1005
 #define IDC_DATA_TYPE                   1006
 #define IDC_NOT_NULL                    1007
+#define IDC_DATA                        1008
 #define IDC_PRIMARY_KEY                 1009
+#define IDC_EDIT_VALUE                  1009
 #define ID_DATABASE_NEW                 32771
 #define ID_DATABASE_CREATE              32772
 #define ID_DATABASE_OPEN                32773
@@ -47,9 +50,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        318
+#define _APS_NEXT_RESOURCE_VALUE        320
 #define _APS_NEXT_COMMAND_VALUE         32797
-#define _APS_NEXT_CONTROL_VALUE         1008
+#define _APS_NEXT_CONTROL_VALUE         1010
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

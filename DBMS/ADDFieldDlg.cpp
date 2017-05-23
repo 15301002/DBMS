@@ -20,6 +20,7 @@ CADDFieldDlg::CADDFieldDlg(CWnd* pParent /*=NULL*/)
 {
 	param = 0;
 	datatype = 0;
+	type = _T("");
 }
 
 CADDFieldDlg::~CADDFieldDlg()
@@ -95,7 +96,8 @@ void CADDFieldDlg::OnBnClickedPrimaryKey()
 void CADDFieldDlg::OnBnClickedOk()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	GetDlgItemTextW(IDC_FIELD_NAME, fieldName);
+	UpdateData();
+	fieldName.Trim();
 	if (fieldName.IsEmpty()) {
 		AfxMessageBox(_T("Field name can not be empty!"));
 

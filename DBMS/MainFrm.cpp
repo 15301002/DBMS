@@ -19,6 +19,7 @@
 #include "ADDFieldDlg.h"
 #include "TableView.h"
 #include "RecordsView.h"
+#include "INSERTRecordDlg.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -36,7 +37,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_TABLE_ALTER, &CMainFrame::OnTableRename)
 	ON_COMMAND(ID_TABLE_RENAME, &CMainFrame::OnTableRename)
 	ON_COMMAND(ID_FIELD_ADD, &CMainFrame::OnFieldAdd)
-	ON_COMMAND(ID_RECORD_INSERTRECORD, &CMainFrame::OnRecordInsert)
+	ON_COMMAND(ID_RECORD_INSERT, &CMainFrame::OnRecordInsert)
 END_MESSAGE_MAP()
 
 static UINT indicators[] = {
@@ -146,7 +147,6 @@ void CMainFrame::OnDatabasesDrop(){
 	}
 }
 
-
 void CMainFrame::OnDatabasesOpen(){
 	CDBMSDoc* pDoc = (CDBMSDoc*)this->GetActiveDocument();
 
@@ -162,7 +162,6 @@ void CMainFrame::OnDatabasesOpen(){
 	pDoc->UpdateAllViews(NULL, UPDATE_OPEN_DATABASE, NULL);
 	
 }
-
 
 void CMainFrame::OnTableCreate(){
 	if (openDatabase == TRUE) {
@@ -228,8 +227,6 @@ CTableEntity* CDBMSDoc::CreateTable(CString strName){
 	return pTable;
 }
 
-
-
 void CMainFrame::OnTableRename()
 {
 	// TODO: 在此添加命令处理程序代码
@@ -258,8 +255,6 @@ void CMainFrame::OnTableRename()
 		AfxMessageBox(_T("You should choose a Table!"));
 }
 
-
-
 void CMainFrame::OnFieldAdd()
 {
 	// TODO: 在此添加命令处理程序代码
@@ -272,7 +267,7 @@ void CMainFrame::OnFieldAdd()
 
 		if (nRes == IDOK){
 
-			CFieldEntity field(dlg.GetFieldName(), dlg.GetDatatype(), 0, 0);
+			CFieldEntity field(dlg.GetFieldName(), dlg.GetDatatype(), dlg.GetParam(), 0);
 
 			int nCount = pTable->GetFieldNum();
 			for (int i = 0; i < nCount; i++)
@@ -296,7 +291,6 @@ void CMainFrame::OnFieldAdd()
 
 			// If the added field is not empty, update the view
 			pDoc->UpdateAllViews(NULL, UPDATE_ADD_FIELD, &field);
-			
 		}
 	}
 }
@@ -355,5 +349,44 @@ void CMainFrame::SwitchView(int nViewType)
 void CMainFrame::OnRecordInsert()
 {
 	// TODO: 在此添加命令处理程序代码
+	if (openDatabase == TRUE)
+	{
+		// Get the object of the document
+		CDBMSDoc* pDoc = (CDBMSDoc*)this->GetActiveDocument();
+		// Gets the current edit table
+		CTableEntity* pTable = pDoc->GetSelectedTB();
+		if (pTable != NULL)
+		{
+			CINSERTRecordDlg dlg;
+			// Set the table editor
+			dlg.SetTable(pTable);
+
+			// Create a record and display the dialog box
+			int nRes = dlg.DoModal();
+
+			if (nRes == IDOK)
+			{
+				// Get the record
+				CRecordEntity record = dlg.GetRecord();
+
+				// Insert record
+				CRecordEntity* pRecord = pDoc->InsertRecord(record);
+
+				// Decide whether has exception
+				CString strError = pDoc->GetError();
+				if (strError.GetLength() > 0)
+				{
+					AfxMessageBox(strError);
+					pDoc->SetError(_T(""));
+				}
+				if (pRecord != NULL)
+				{
+					// Update view
+					pDoc->UpdateAllViews(NULL, UPDATE_INSERT_RECORD, pRecord);
+				}
+			}
+		}
+	}
+
 }
 

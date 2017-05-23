@@ -88,7 +88,7 @@ void CRecordsView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 		CDBMSDoc* pDoc = (CDBMSDoc*)this->GetDocument();
 		switch (lHint)
 		{
-		case UPDATE_TABLE_VIEW:	// Select record
+		case UPDATE_RECORD_VIEW:	// Select record
 		{
 			m_pTable = (CTableEntity*)pHint;
 

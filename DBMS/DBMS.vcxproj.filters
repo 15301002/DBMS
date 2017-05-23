@@ -144,11 +144,20 @@
     <ClInclude Include="TableView.h">
       <Filter>View\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RecordLogic.h" />
-    <ClInclude Include="RecordDao.h" />
-    <ClInclude Include="TimeUtil.h" />
     <ClInclude Include="RecordsView.h">
       <Filter>View\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INSERTRecordDlg.h">
+      <Filter>View\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RecordDao.h">
+      <Filter>Dao\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RecordLogic.h">
+      <Filter>Logic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeUtil.h">
+      <Filter>Util\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -221,11 +230,20 @@
     <ClCompile Include="TableView.cpp">
       <Filter>View\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RecordLogic.cpp" />
-    <ClCompile Include="RecordDao.cpp" />
-    <ClCompile Include="TimeUtil.cpp" />
     <ClCompile Include="RecordsView.cpp">
       <Filter>View\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="INSERTRecordDlg.cpp">
+      <Filter>View\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RecordDao.cpp">
+      <Filter>Dao\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RecordLogic.cpp">
+      <Filter>Logic\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeUtil.cpp">
+      <Filter>Util\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

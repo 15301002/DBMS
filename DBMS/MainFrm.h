@@ -46,8 +46,8 @@ public:
 	afx_msg void OnTableCreate();
 	afx_msg void OnTableRename();
 	afx_msg void OnFieldAdd();
-	void SwitchView(int nViewType);
 	afx_msg void OnRecordInsert();
+	void SwitchView(int nViewType);
 };
 
 

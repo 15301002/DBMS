@@ -211,13 +211,13 @@ HTREEITEM CDBTreeView::AddFieldNode(CFieldEntity* pField, HTREEITEM hTableItem){
 	return hFieldNode;
 }
 
-void CDBTreeView::OnTvnSelchanged (NMHDR *pNMHDR, LRESULT *pResult){
+void CDBTreeView::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult) {
 	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
 
 	CDBMSDoc* pDoc = (CDBMSDoc*)this->GetDocument();
 
 	HTREEITEM hSelectedItem = pTreeCtrl->GetSelectedItem();
-	
+
 	if (hSelectedItem != NULL) {
 		DWORD dwVal = pTreeCtrl->GetItemData(hSelectedItem);
 		if (dwVal == MENU_DATABASE) {
@@ -225,7 +225,7 @@ void CDBTreeView::OnTvnSelchanged (NMHDR *pNMHDR, LRESULT *pResult){
 			int nIndex = 0;
 			while ((hFindItem = pTreeCtrl->GetNextItem(hFindItem, TVGN_PREVIOUS)) != NULL) {
 				nIndex++;
-			}			
+			}
 			pDoc->SetDBEntity(pDoc->GetDBAt(nIndex));
 			pDoc->LoadTables();
 
@@ -233,6 +233,8 @@ void CDBTreeView::OnTvnSelchanged (NMHDR *pNMHDR, LRESULT *pResult){
 			CString strTitle;
 			strTitle.Format(_T("Database(%s)"), pDoc->GetDBEntity()->GetName());
 			pDoc->SetTitle(strTitle);
+
+			((CMainFrame *)AfxGetMainWnd())->SwitchView(DEFAULT);
 		}
 		else if (dwVal == MENU_TABLE) {
 			HTREEITEM hFindItem = hSelectedItem;
@@ -272,13 +274,30 @@ void CDBTreeView::OnTvnSelchanged (NMHDR *pNMHDR, LRESULT *pResult){
 				pDoc->SetDBEntity(pDoc->GetDBAt(j));
 				pDoc->LoadTables();
 				pDoc->SetSelectedTB(pDoc->GetTBAt(i));
+				CTableEntity* pTable = pDoc->GetSelectedTB();
+
+				if (pTable != NULL)
+				{
+					pDoc->LoadRecord();
+
+					CString strError = pDoc->GetError();
+					if (strError.GetLength() > 0)
+					{
+						AfxMessageBox(strError);
+						pDoc->SetError(_T(""));
+						return;
+					}
+
+					((CMainFrame *)AfxGetMainWnd())->SwitchView(RECORD);
+					pDoc->UpdateAllViews(NULL, UPDATE_RECORD_VIEW, pTable);
+				}
 			}
 		}
+		*pResult = 0;
 	}
-	*pResult = 0;
 }
 
-void CDBTreeView::OnNMRClick(NMHDR *pNMHDR, LRESULT *pResult){
+void CDBTreeView::OnNMRClick(NMHDR *pNMHDR, LRESULT *pResult) {
 	CPoint point;
 	GetCursorPos(&point);
 
@@ -288,9 +307,9 @@ void CDBTreeView::OnNMRClick(NMHDR *pNMHDR, LRESULT *pResult){
 	HTREEITEM hSelectedItem = pTreeCtrl->HitTest(point, &nFlag);
 	CString temp = pTreeCtrl->GetItemText(hSelectedItem);
 
-	if (NULL != hSelectedItem){
+	if (NULL != hSelectedItem) {
 		DWORD dwVal = pTreeCtrl->GetItemData(hSelectedItem);
-		if (dwVal != MENU_RCLICK){
+		if (dwVal != MENU_RCLICK) {
 			pTreeCtrl->ClientToScreen(&point);
 
 			CMenu* pMenu = this->GetParentFrame()->GetMenu()->GetSubMenu(dwVal);

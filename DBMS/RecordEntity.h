@@ -11,11 +11,11 @@ public :
 	CRecordEntity & operator=(const CRecordEntity & e);
 
 public :
-	void PutVARCHAR(CString strKey, CString value);
-	void PutINT(CString strKey, int value);
-	void PutDOUBLE(CString strKey, double value);
-	void PutDATETIME(CString strKey, SYSTEMTIME value);
-	void PutBOOL(CString strKey, BOOL value);
+	void Put(CString strFieldName, CString strValue);
+	void Put(CString strFieldName, int nValue);
+	void Put(CString strFieldName, double dbValue);
+	void Put(CString strFieldName, SYSTEMTIME t);
+
 	CString Get(CString strKey);
 };
 

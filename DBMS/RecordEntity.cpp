@@ -31,36 +31,28 @@ CRecordEntity &CRecordEntity::operator =(const CRecordEntity &e)
 	return *this;
 }
 
-void CRecordEntity::PutVARCHAR(CString strKey, CString value) {
-	mapData.SetAt(strKey, value);
+void CRecordEntity::Put(CString strFieldName, CString strValue)
+{
+	mapData.SetAt(strFieldName, strValue);
 }
 
-void CRecordEntity::PutINT(CString strKey, int value) {
-
-	CString strValue;
-	strValue.Format(_T("%d"), value);
-	mapData.SetAt(strKey, strValue);
-}
-
-void CRecordEntity::PutDOUBLE(CString strKey, double value) {
-
-	CString strValue;
-	strValue.Format(_T("%f"), value);
-	mapData.SetAt(strKey, strValue);
-}
-
-void CRecordEntity::PutDATETIME(CString strKey, SYSTEMTIME value) {
-	mapData.SetAt(strKey, CTimeUtil::ToLDatetimeString(value));
-}
-
-void CRecordEntity::PutBOOL(CString strKey, BOOL value)
+void CRecordEntity::Put(CString strFieldName, int nValue)
 {
 	CString strValue;
-	if (value == TRUE) 
-		strValue.Format(_T("%d"), 1);
-	else 
-		strValue.Format(_T("%d"), 0);
-	mapData.SetAt(strKey, strValue);
+	strValue.Format(_T("%d"), nValue);
+	mapData.SetAt(strFieldName, strValue);
+}
+
+void CRecordEntity::Put(CString strFieldName, double dbValue)
+{
+	CString strValue;
+	strValue.Format(_T("%f"), dbValue);
+	mapData.SetAt(strFieldName, strValue);
+}
+
+void CRecordEntity::Put(CString strFieldName, SYSTEMTIME t)
+{
+	mapData.SetAt(strFieldName, CTimeUtil::ToLDatetimeString(t));
 }
 
 CString CRecordEntity::Get(CString strKey) {

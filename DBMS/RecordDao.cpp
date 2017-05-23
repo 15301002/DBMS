@@ -40,7 +40,6 @@ bool CRecordDao::Insert(CTableEntity &te, CRecordEntity &re)
 	{
 		throw new CAppException(_T("Failed to save record!"));
 	}
-
 	return false;
 }
 
@@ -206,7 +205,7 @@ bool CRecordDao::Read(CFile &file, CTableEntity &te, CRecordEntity &re)
 				{
 					return false;
 				}
-				re.PutINT(strFieldName, nVal);
+				re.Put(strFieldName, nVal);
 				break;
 			}
 			case CFieldEntity::DT_BOOL: // Boolean
@@ -216,7 +215,7 @@ bool CRecordDao::Read(CFile &file, CTableEntity &te, CRecordEntity &re)
 				{
 					return false;
 				}
-				re.PutBOOL(strFieldName, bVal);
+				re.Put(strFieldName, bVal);
 				break;
 			}
 			case CFieldEntity::DT_DOUBLE: // Floating-point number
@@ -226,7 +225,7 @@ bool CRecordDao::Read(CFile &file, CTableEntity &te, CRecordEntity &re)
 				{
 					return false;
 				}
-				re.PutDOUBLE(strFieldName, dbVal);
+				re.Put(strFieldName, dbVal);
 				break;
 			}
 			case CFieldEntity::DT_DATETIME: // Time type
@@ -236,7 +235,7 @@ bool CRecordDao::Read(CFile &file, CTableEntity &te, CRecordEntity &re)
 				{
 					return false;
 				}
-				re.PutDATETIME(strFieldName, st);
+				re.Put(strFieldName, st);
 				break;
 			}
 			case CFieldEntity::DT_VARCHAR: // String type
@@ -247,7 +246,7 @@ bool CRecordDao::Read(CFile &file, CTableEntity &te, CRecordEntity &re)
 				{
 					return false;
 				}
-				re.PutVARCHAR(strFieldName, CCharUtil::ToString(pBuf, nSize));
+				re.Put(strFieldName, CCharUtil::ToString(pBuf, nSize));
 				// Release cache
 				delete[] pBuf;
 				break;
