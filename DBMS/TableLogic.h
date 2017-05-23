@@ -11,7 +11,7 @@ public:
 	~CTableLogic();
 	int GetTables(const CString strDBName, TABLEARR & arrTables);
 	bool CreateTable(const CString strDBName, CTableEntity & te);
-	bool RenameTable(const CString strDBName, CString oldTableName, CTableEntity & te);
+	bool RenameTable(const CString strDBName, CString oldTableName, CTableEntity * te);
 	bool AddField(const CString strDBName, CTableEntity & te, CFieldEntity & fe);
 };
 

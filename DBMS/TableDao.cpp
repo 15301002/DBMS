@@ -199,7 +199,7 @@ bool CTableDao::AlterTable(const CString strFilePath, CTableEntity &te)
 	return false;
 }
 
-bool CTableDao::RenameTable(CString strFilePath, CString oldName, CTableEntity &e) {
+bool CTableDao::RenameTable(CString strFilePath, CString oldName, CTableEntity *e) {
 	try
 	{
 		CFile file;
@@ -222,7 +222,7 @@ bool CTableDao::RenameTable(CString strFilePath, CString oldName, CTableEntity &
 			if (oldName.Compare(strName) == 0)
 			{
 				file.Seek(lOffset, CFile::begin);// The file pointer points to the position of the previous record
-				file.Write(&e.GetTable(), sizeof(Table));// Alter the table information
+				file.Write(& (e->GetTable()), sizeof(Table));// Alter the table information
 				flag = true;
 				break;
 			}
@@ -236,11 +236,11 @@ bool CTableDao::RenameTable(CString strFilePath, CString oldName, CTableEntity &
 	catch (CException* e)
 	{
 		e->Delete();
-		throw new CAppException(_T("Failed to alert table!"));
+		throw new CAppException(_T("Failed to alter table!"));
 	}
 	catch (...)
 	{
-		throw new CAppException(_T("Failed to alert table!"));
+		throw new CAppException(_T("Failed to alter table!"));
 	}
 	return false;
 }

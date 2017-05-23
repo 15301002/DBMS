@@ -274,7 +274,6 @@ void CMainFrame::OnFieldAdd()
 
 			CFieldEntity field(dlg.GetFieldName(), dlg.GetDatatype(), 0, 0);
 
-
 			int nCount = pTable->GetFieldNum();
 			for (int i = 0; i < nCount; i++)
 			{

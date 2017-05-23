@@ -24,6 +24,22 @@ CTableEntity::CTableEntity(){
 	tLMTime = tCtTime;
 }
 
+CTableEntity::CTableEntity( CTableEntity *e)
+{
+	int count = e->GetFieldNum();
+	for (int i = 0; i < count;i++) {
+		this->arrFields.Add(e->GetFieldAt(i));
+	}
+	this->strName = e->GetName();
+	this->strTdPath = e->GetTdPath();
+	this->strTrdPath = e->GetTrdPath();
+	this->strTicPath = e->GetTicPath();
+	this->strTidPath = e->GetTidPath();
+	this->nRecordNum = 0;
+	this->tCtTime = e->GetCtTime();
+	::GetLocalTime(&tLMTime);
+}
+
 CTableEntity::~CTableEntity(){}
 
 Table CTableEntity::GetTable(){

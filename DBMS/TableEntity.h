@@ -16,6 +16,7 @@ private :
 public :
 	CTableEntity(CString strName);
 	CTableEntity();
+	CTableEntity(CTableEntity *);
 	~CTableEntity();
 public :
 	Table GetTable();

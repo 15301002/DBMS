@@ -1,3 +1,23 @@
-﻿  DBTreeView.cpp
+﻿  DBMSDoc.cpp
+  正在生成代码...
+  正在编译...
+  TableView.cpp
+  TableLogic.cpp
+  TableEntity.cpp
+  TableDao.cpp
+d:\programming\dbms\dbms\tabledao.cpp(166): warning C4244: “初始化”: 从“ULONGLONG”转换到“long”，可能丢失数据
+d:\programming\dbms\dbms\tabledao.cpp(183): warning C4244: “=”: 从“ULONGLONG”转换到“long”，可能丢失数据
+d:\programming\dbms\dbms\tabledao.cpp(213): warning C4244: “初始化”: 从“ULONGLONG”转换到“long”，可能丢失数据
+d:\programming\dbms\dbms\tabledao.cpp(229): warning C4244: “=”: 从“ULONGLONG”转换到“long”，可能丢失数据
+  RecordsView.cpp
+  RecordLogic.cpp
+  RecordDao.cpp
+  MainFrm.cpp
+  FieldEntity.cpp
+  DBTreeView.cpp
+  DBMSView.cpp
+  DBMS.cpp
+  ADDFieldDlg.cpp
+  正在生成代码...
   DBMS.vcxproj -> D:\Programming\DBMS\Debug\DBMS.exe
   DBMS.vcxproj -> D:\Programming\DBMS\Debug\DBMS.pdb (Partial PDB)

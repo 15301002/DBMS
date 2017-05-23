@@ -279,15 +279,16 @@ void CDBMSDoc::RenameTable(CString newName) {
 
 			CTableEntity* pTable = arrTB.GetAt(i);
 
-			CTableEntity newTable(newName);
-			newTable.SetCtTime(pTable->GetCtTime());
-			newTable.SetLMTime();
+			CTableEntity newTable(pTable);
+			newTable.SetName(newName);
 
-
-			if (pTable->GetName() == selectedTB->GetName()) {
-				if (tbLogic.RenameTable(dbEntity->GetName(), selectedTB->GetName(), newTable)) {
+			if (pTable->GetName().CompareNoCase(selectedTB->GetName()) == 0) {
+				if (tbLogic.RenameTable(dbEntity->GetName(), selectedTB->GetName(), &newTable)) {
 					pTable->SetName(newName);
+					pTable->SetTdPath(newTable.GetTdPath());
+					pTable->SetTrdPath(newTable.GetTrdPath());
 					pTable->SetLMTime(newTable.GETLMTime());
+					SetSelectedTB(pTable);
 					break;
 				}
 			}

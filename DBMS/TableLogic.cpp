@@ -70,24 +70,24 @@ bool CTableLogic::CreateTable(const CString strDBName, CTableEntity &te)
 	return false;
 }
 
-bool CTableLogic::RenameTable(const CString strDBName, CString oldTableName , CTableEntity &te) {
+bool CTableLogic::RenameTable(const CString strDBName, CString oldTableName , CTableEntity *te) {
 	try
 	{
 		CString strTableFile = fileLogic.GetTableFile(strDBName);
+
+		te->SetTdPath(fileLogic.GetTbDefineFile(strDBName, te->GetName()));
+
+		te->SetTrdPath(fileLogic.GetTbRecordFile(strDBName, te->GetName()));
 
 		if (!daoTB.RenameTable(strTableFile, oldTableName , te))
 		{
 			return false;
 		}
-
-		te.SetTdPath(fileLogic.GetTbDefineFile(strDBName, te.GetName()));
-
-		te.SetTrdPath(fileLogic.GetTbRecordFile(strDBName, te.GetName()));
 		if (CFileUtil::IsValidFile(fileLogic.GetTbDefineFile(strDBName, oldTableName)))
-			CFile::Rename(fileLogic.GetTbDefineFile(strDBName, oldTableName), te.GetTdPath());
+			CFile::Rename(fileLogic.GetTbDefineFile(strDBName, oldTableName), te->GetTdPath());
 
 		if (CFileUtil::IsValidFile(fileLogic.GetTbRecordFile(strDBName, oldTableName)))
-			CFile::Rename(fileLogic.GetTbRecordFile(strDBName, oldTableName), te.GetTrdPath());
+			CFile::Rename(fileLogic.GetTbRecordFile(strDBName, oldTableName), te->GetTrdPath());
 		return true;
 	}
 	catch (CAppException* e)
