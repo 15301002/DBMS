@@ -7,6 +7,7 @@ class CDBTreeView : public CTreeView {
 	DECLARE_DYNCREATE(CDBTreeView);
 private:
 	CTreeCtrl* pTreeCtrl;
+	CImageList m_imageList;
 protected :
 	CDBTreeView();
 	virtual ~CDBTreeView();

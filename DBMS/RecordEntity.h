@@ -1,6 +1,6 @@
 #pragma once
-
-class CRecordEntity : public CObject{
+#include "FieldEntity.h"
+      class CRecordEntity : public CObject{
 private :
 	CMapStringToString mapData;
 
@@ -16,7 +16,8 @@ public :
 	void Put(CString strFieldName, double dbValue);
 	void Put(CString strFieldName, SYSTEMTIME t);
 
-	CString Get(CString strKey);
+	CString Get(CFieldEntity fe);
+
 };
 
 typedef CTypedPtrArray<CPtrArray, CRecordEntity*> RECORDARR;

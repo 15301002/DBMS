@@ -68,10 +68,13 @@ BOOL CADDFieldDlg::IsPrimaryKey()
 	return isPrimaryKey;
 }
 
+void CADDFieldDlg::SetPrimaryKey(BOOL torf)
+{
+	this->isPrimaryKey = torf;
+}
+
 
 BEGIN_MESSAGE_MAP(CADDFieldDlg, CDialogEx)
-	ON_BN_CLICKED(IDC_NOT_NULL, &CADDFieldDlg::OnBnClickedNotNull)
-	ON_BN_CLICKED(IDC_PRIMARY_KEY, &CADDFieldDlg::OnBnClickedPrimaryKey)
 	ON_BN_CLICKED(IDOK, &CADDFieldDlg::OnBnClickedOk)
 END_MESSAGE_MAP()
 
@@ -79,18 +82,6 @@ END_MESSAGE_MAP()
 // CADDFieldDlg 消息处理程序
 
 
-void CADDFieldDlg::OnBnClickedNotNull()
-{
-	// TODO: 在此添加控件通知处理程序代码
-	isNotNull = ((CButton*)GetDlgItem(IDC_NOT_NULL))->GetCheck();
-}
-
-
-void CADDFieldDlg::OnBnClickedPrimaryKey()
-{
-	// TODO: 在此添加控件通知处理程序代码
-	isPrimaryKey = ((CButton*)GetDlgItem(IDC_PRIMARY_KEY))->GetCheck();
-}
 
 
 void CADDFieldDlg::OnBnClickedOk()
@@ -104,6 +95,7 @@ void CADDFieldDlg::OnBnClickedOk()
 		return;
 	}
 	else {
+
 		if (type.CollateNoCase(_T("INT")) == 0)
 		{
 			datatype = CFieldEntity::DT_INTEGER;
@@ -141,6 +133,8 @@ BOOL CADDFieldDlg::OnInitDialog()
 	m_cbType.InsertString(3, _T("DOUBLE"));
 	m_cbType.InsertString(4, _T("DATATIME"));
 	m_cbType.SetCurSel(0);
+	UpdateData();
+	((CButton *)GetDlgItem(IDC_PRIMARY_KEY))->SetCheck(isPrimaryKey);
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 异常: OCX 属性页应返回 FALSE
 }

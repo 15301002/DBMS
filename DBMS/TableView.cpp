@@ -124,6 +124,7 @@ void CTableView::AddField(CFieldEntity* pField)
 	CString nTypeName = pField->GetTypeName(nDataType);
 	m_pListCtrl->SetItemText(nCount, 1, nTypeName);
 
+	m_pListCtrl->SetItemText(nCount, 4, pField->GetDefaultValue());
 }
 
 void CTableView::OnNMRClick(NMHDR *pNMHDR, LRESULT *pResult)

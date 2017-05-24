@@ -8,6 +8,8 @@ private :
 	int			nParam;
 	SYSTEMTIME	tLMTime;
 	int			nIntegrities;
+	CString		defaultVal;
+	BOOL		isPrimaryKey;
 public :
 	CFieldEntity();
 	CFieldEntity(CFieldEntity&);
@@ -23,7 +25,11 @@ public :
 	void SetParam(int param);
 	void SetLMTime(SYSTEMTIME time);
 	void SetIntegerities(int integerites);
+	void SetDefaultValue(CString val);
+	void SetIsPrimaryKey(BOOL primaryKey);
 
+	BOOL IsPrimaryKey();
+	CString GetDefaultValue();
 	CString GetName();
 	int GetType();
 	int GetParam();

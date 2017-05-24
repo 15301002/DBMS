@@ -40,9 +40,8 @@ public:
 	BOOL IsNotNull();
 	BOOL IsPrimaryKey();
 
-	
-	afx_msg void OnBnClickedNotNull();
-	afx_msg void OnBnClickedPrimaryKey();
+	void SetPrimaryKey(BOOL);
+
 	afx_msg void OnBnClickedOk();
 	virtual BOOL OnInitDialog();
 };

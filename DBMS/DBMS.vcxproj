@@ -260,8 +260,12 @@
     <None Include="res\DBMS.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\child.ico" />
+    <Image Include="res\database.ico" />
     <Image Include="res\DBMS.ico" />
     <Image Include="res\DBMSDoc.ico" />
+    <Image Include="res\icon1.ico" />
+    <Image Include="res\table.ico" />
     <Image Include="res\Toolbar.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -4,13 +4,6 @@
 #include "TimeUtil.h"
 #include "CharUtil.h"
 
-/**************************************************
-[FunctionName]	Insert
-[Function]	Create new rows in a table
-[Argument]	CTableEntity &te: Table structure information
-CRecordEntity &re: Record information entity
-[ReturnedValue]	bool: True if the operation is successful; otherwise false.
-**************************************************/
 bool CRecordDao::Insert(CTableEntity &te, CRecordEntity &re)
 {
 	try
@@ -43,13 +36,6 @@ bool CRecordDao::Insert(CTableEntity &te, CRecordEntity &re)
 	return false;
 }
 
-/**************************************************
-[FunctionName]	SelectAll
-[Function]	Retrieve all records from a specified table
-[Argument]	CTableEntity &te: Table structure information
-RECORDARR &data: Recordset
-[ReturnedValue]	int: The total number of the records
-**************************************************/
 int CRecordDao::SelectAll(CTableEntity &te, RECORDARR &data)
 {
 	try
@@ -98,77 +84,63 @@ int CRecordDao::SelectAll(CTableEntity &te, RECORDARR &data)
 	return 0;
 }
 
-/**************************************************
-[FunctionName]	Write
-[Function]	To save a record to a file
-[Argument]	CFile &file: Open file of data record
-CTableEntity &te: Table structure information
-CRecordEntity &re: Record information entity
-[ReturnedValue]	bool: True if the operation is successful;otherwise false.
-**************************************************/
 bool CRecordDao::Write(CFile &file, CTableEntity &te, CRecordEntity &re)
 {
 	try
 	{
-		// Get field number and save the value of each field  one by one.
 		int nFieldNum = te.GetFieldNum();
 		for (int i = 0; i < nFieldNum; i++)
 		{
-			// Get field information.
 			CFieldEntity* pField = te.GetFieldAt(i);
 
-			// Get the value of the field, the data type is CString. Before you save the need for type conversion
 			CString strFieldName = pField->GetName();
-			CString strVal = re.Get(strFieldName);
+			CString strVal = re.Get(*pField);
 
-			// Get to the data type of the field.
-			// To convert the value of the field to the actual data types, and write in the file.
 			switch (pField->GetType())
 			{
-			case CFieldEntity::DT_INTEGER: // Integer
+			case CFieldEntity::DT_INTEGER:
 			{
 				int nVal = _wtoi(strVal);
 				file.Write(&nVal, sizeof(int));
 				break;
 			}
-			case CFieldEntity::DT_BOOL: // Boolean type
+			case CFieldEntity::DT_BOOL:
 			{
 				int nVal = _wtoi(strVal);
 				file.Write(&nVal, sizeof(bool));
 				break;
 			}
-			case CFieldEntity::DT_DOUBLE: // Floating-point number
+			case CFieldEntity::DT_DOUBLE:
 			{
 				double dbVal = _wtof(strVal);
 				file.Write(&dbVal, sizeof(double));
 				break;
 			}
-			case CFieldEntity::DT_DATETIME: // Time type
+			case CFieldEntity::DT_DATETIME:
 			{
 				SYSTEMTIME st = CTimeUtil::ToSystemTime(strVal);
 				file.Write(&st, sizeof(SYSTEMTIME));
 				break;
 			}
-			case CFieldEntity::DT_VARCHAR: // String type
+			case CFieldEntity::DT_VARCHAR:
 			{
-				// The length of the string
 				int nSize = sizeof(char) * pField->GetParam();
-				// Create a cache to save the string
+
 				char* pBuf = new char[nSize];
 				CCharUtil::ToChars(pBuf, strVal, nSize);
-				// Write in file
+
 				file.Write(pBuf, nSize);
-				// Release the cache
+
 				delete[] pBuf;
 				break;
 			}
-			default: // Other data types
+			default:
 			{
 				throw new CAppException(_T("Field data type is unusual, save record failed!"));
 			}
-			}// end switch
+			}
 
-		}// end for
+		}
 		return true;
 	}
 	catch (CException* e)

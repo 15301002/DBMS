@@ -72,6 +72,12 @@ IDR_MAINFRAME           ICON                    "res\\DBMS.ico"
 
 IDR_DBMSTYPE            ICON                    "res\\DBMSDoc.ico"
 
+IDI_ICON_CHILD          ICON                    "res\\child.ico"
+
+IDI_ICON_DATABASE       ICON                    "res\\database.ico"
+
+IDI_ICON_TABLE          ICON                    "res\\table.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -90,7 +96,6 @@ IDR_MAINFRAME TOOLBAR 16, 15
 BEGIN
     BUTTON      ID_DATABASE_CREATE
     BUTTON      ID_DATABASES_OPEN
-    BUTTON      ID_DATABASE_SAVE
     SEPARATOR
     BUTTON      ID_TABLE_CREATE
 END
@@ -205,7 +210,7 @@ BEGIN
     EDITTEXT        IDC_DEFAULT,87,54,82,12,ES_AUTOHSCROLL
     COMBOBOX        IDC_DATA_TYPE,87,35,82,13,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Not Null",IDC_NOT_NULL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,37,130,60,12
-    CONTROL         "Primary Key",IDC_PRIMARY_KEY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,111,129,60,12
+    CONTROL         "Primary Key",IDC_PRIMARY_KEY,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,111,129,60,12
 END
 
 IDD_INSERT DIALOGEX 0, 0, 309, 176

@@ -170,7 +170,7 @@ void CRecordsView::AddRecord(CRecordEntity* pRecord)
 		for (int i = 0; i < nCount; i++)
 		{
 			CFieldEntity* pField = m_pTable->GetFieldAt(i);
-			CString strValue = pRecord->Get(pField->GetName());
+			CString strValue = pRecord->Get(*pField);
 
 			if (i == 0)
 			{

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "RecordEntity.h"
 #include "TimeUtil.h"
-
+#include "FieldEntity.h"
 CRecordEntity::CRecordEntity() {
 
 }
@@ -55,13 +55,13 @@ void CRecordEntity::Put(CString strFieldName, SYSTEMTIME t)
 	mapData.SetAt(strFieldName, CTimeUtil::ToLDatetimeString(t));
 }
 
-CString CRecordEntity::Get(CString strKey) {
+CString CRecordEntity::Get(CFieldEntity fe) {
 
 	CString strVal;
-	if (mapData.Lookup(strKey, strVal) == FALSE)
+	if (mapData.Lookup(fe.GetName(), strVal) == FALSE)
 	{
 		// Get the default value
-		strVal = _T("");
+		strVal = fe.GetDefaultValue();
 	}
 	return strVal;
 }

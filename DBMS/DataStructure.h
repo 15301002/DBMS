@@ -27,6 +27,7 @@ typedef struct Field{
 	VARCHAR name;
 	INTEGER type;
 	INTEGER param;
+	VARCHAR defaultVal;
 	DATETIME lmtime;
 	INTEGER integrities;
 }Field;

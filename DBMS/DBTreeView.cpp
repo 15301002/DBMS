@@ -3,6 +3,8 @@
 #include "DBMSDoc.h"
 #include "Global.h"
 #include "MainFrm.h"
+#include "resource.h"
+
 IMPLEMENT_DYNCREATE(CDBTreeView, CTreeView)
 CDBTreeView::CDBTreeView()
 {
@@ -45,6 +47,14 @@ void CDBTreeView::OnInitialUpdate()
 		return;
 	}
 
+	m_imageList.DeleteImageList();
+
+	m_imageList.Create(16, 16, ILC_COLOR16 | ILC_MASK, 0, 4);
+
+	m_imageList.Add(AfxGetApp()->LoadIcon(IDI_ICON_DATABASE));
+	m_imageList.Add(AfxGetApp()->LoadIcon(IDI_ICON_TABLE));
+	m_imageList.Add(AfxGetApp()->LoadIcon(IDI_ICON_CHILD));
+
 	pTreeCtrl = &this->GetTreeCtrl();
 
 	// Get the style of the tree control
@@ -55,6 +65,9 @@ void CDBTreeView::OnInitialUpdate()
 		| TVS_HASLINES		// Draw lines linked child items to their corresponding parent item
 		| TVS_LINESATROOT;	// Draw lines linked child items to the root item
 	::SetWindowLong(pTreeCtrl->m_hWnd, GWL_STYLE, dwStyle);
+
+
+	pTreeCtrl->SetImageList(&m_imageList, TVSIL_NORMAL);
 
 	pDoc->LoadDatabase();
 	int count = pDoc->GetDBNum();
@@ -156,7 +169,6 @@ void CDBTreeView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 			break;
 		}
 		}
-
 	}
 }
 
@@ -181,9 +193,8 @@ HTREEITEM CDBTreeView::AddTableNode(HTREEITEM hRootNode, CTableEntity* pTable){
 				AddFieldNode(pField, hTableNode);
 			}
 
-			// Expand table item
 			pTreeCtrl->Expand(hTableNode, TVE_EXPAND);
-			// Expand database item
+
 			pTreeCtrl->Expand(hRootNode, TVE_EXPAND);
 
 			return hTableNode;

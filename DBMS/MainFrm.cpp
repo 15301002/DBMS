@@ -261,13 +261,20 @@ void CMainFrame::OnFieldAdd()
 	// Get the object of document
 	CDBMSDoc* pDoc = (CDBMSDoc*)this->GetActiveDocument();
 	CTableEntity* pTable = pDoc->GetSelectedTB();
+	
 	if (pTable != NULL) {
 		CADDFieldDlg dlg;
+		if (pTable->GetFieldNum() == 0)
+			dlg.SetPrimaryKey(TRUE);
+		else
+			dlg.SetPrimaryKey(FALSE);
 		int nRes = dlg.DoModal();
 
 		if (nRes == IDOK){
 
 			CFieldEntity field(dlg.GetFieldName(), dlg.GetDatatype(), dlg.GetParam(), 0);
+			field.SetDefaultValue(dlg.GetDefaultVal());
+			field.SetIsPrimaryKey(dlg.IsPrimaryKey());
 
 			int nCount = pTable->GetFieldNum();
 			for (int i = 0; i < nCount; i++)
@@ -278,9 +285,9 @@ void CMainFrame::OnFieldAdd()
 					return;
 				}
 			}
-			// Add field
+
 			pDoc->AddField(field);
-			// If there has exception information, prompt exception
+
 			CString strError = pDoc->GetError();
 			if (strError.GetLength() != 0)
 			{
@@ -289,7 +296,6 @@ void CMainFrame::OnFieldAdd()
 				return;
 			}
 
-			// If the added field is not empty, update the view
 			pDoc->UpdateAllViews(NULL, UPDATE_ADD_FIELD, &field);
 		}
 	}
@@ -351,28 +357,23 @@ void CMainFrame::OnRecordInsert()
 	// TODO: 在此添加命令处理程序代码
 	if (openDatabase == TRUE)
 	{
-		// Get the object of the document
 		CDBMSDoc* pDoc = (CDBMSDoc*)this->GetActiveDocument();
-		// Gets the current edit table
+
 		CTableEntity* pTable = pDoc->GetSelectedTB();
 		if (pTable != NULL)
 		{
 			CINSERTRecordDlg dlg;
-			// Set the table editor
+
 			dlg.SetTable(pTable);
 
-			// Create a record and display the dialog box
 			int nRes = dlg.DoModal();
 
 			if (nRes == IDOK)
 			{
-				// Get the record
 				CRecordEntity record = dlg.GetRecord();
 
-				// Insert record
 				CRecordEntity* pRecord = pDoc->InsertRecord(record);
 
-				// Decide whether has exception
 				CString strError = pDoc->GetError();
 				if (strError.GetLength() > 0)
 				{
@@ -381,7 +382,6 @@ void CMainFrame::OnRecordInsert()
 				}
 				if (pRecord != NULL)
 				{
-					// Update view
 					pDoc->UpdateAllViews(NULL, UPDATE_INSERT_RECORD, pRecord);
 				}
 			}

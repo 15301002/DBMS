@@ -1,16 +1,8 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "RecordLogic.h"
 #include "AppException.h"
 #include "FileUtil.h"
 
-/**************************************************
-[FunctionName]	Insert
-[Function]	Create new rows in a table
-[Argument]	CString strDBName: Database name
-CTableEntity &te: Table information entity
-CRecordEntity &re: Record information entity
-[ReturnedValue]	bool: True if the operation is successful, otherwise false.
-**************************************************/
 bool CRecordLogic::Insert(const CString strDBName, CTableEntity &te, CRecordEntity &re)
 {
 	try
@@ -52,13 +44,6 @@ bool CRecordLogic::Insert(const CString strDBName, CTableEntity &te, CRecordEnti
 	return false;
 }
 
-/**************************************************
-[FunctionName]	SelectAll
-[Function]	Retrieve all records from a specified table
-[Argument]	CTableEntity &te: Table structure information
-RECORDARR &data: Record information array
-[ReturnedValue]	bool: True if the operation is successful otherwise false.
-**************************************************/
 bool CRecordLogic::SelectAll(CTableEntity &te, RECORDARR &data)
 {
 	try

@@ -11,6 +11,9 @@
 #define IDD_RENAME_TABLE                314
 #define IDD_ADD_FIELD                   316
 #define IDD_INSERT                      318
+#define IDI_ICON_CHILD                  321
+#define IDI_ICON_DATABASE               322
+#define IDI_ICON_TABLE                  323
 #define IDC_DATABASE_NAME               1000
 #define IDC_TABLE_NAME                  1002
 #define IDC_OLD_TABLE_NAME              1003
@@ -50,7 +53,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        320
+#define _APS_NEXT_RESOURCE_VALUE        325
 #define _APS_NEXT_COMMAND_VALUE         32797
 #define _APS_NEXT_CONTROL_VALUE         1010
 #define _APS_NEXT_SYMED_VALUE           310

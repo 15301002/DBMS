@@ -12,6 +12,7 @@ CFieldEntity::CFieldEntity(CFieldEntity &e)
 	nParam = e.GetParam();
 	tLMTime = e.GetLMTime();
 	nIntegrities = e.GetIntegerities();
+	defaultVal = e.GetDefaultValue();
 }
 
 CFieldEntity::CFieldEntity(CString strName, int nType, int nParam, int nIntegrities)
@@ -31,6 +32,7 @@ void CFieldEntity::SetField(Field fd)
 	tLMTime = fd.lmtime;
 	nType = fd.type;
 	nParam = fd.param;
+	defaultVal = CCharUtil::ToString(fd.defaultVal, sizeof(VARCHAR));
 	nIntegrities = fd.integrities;
 }
 
@@ -40,6 +42,7 @@ Field CFieldEntity::GetField()
 	memset(&fd, 0, sizeof(Field));
 
 	CCharUtil::ToChars(fd.name, strName, sizeof(VARCHAR));
+	CCharUtil::ToChars(fd.defaultVal, defaultVal, sizeof(VARCHAR));
 	fd.lmtime = tLMTime;
 	fd.type = nType;
 	fd.param = nParam;
@@ -104,6 +107,26 @@ void CFieldEntity::SetIntegerities(int integerites)
 	this->nIntegrities = integerites;
 }
 
+void CFieldEntity::SetDefaultValue(CString val)
+{
+	this->defaultVal = val;
+}
+
+void CFieldEntity::SetIsPrimaryKey(BOOL primaryKey)
+{
+	isPrimaryKey = primaryKey;
+}
+
+
+BOOL CFieldEntity::IsPrimaryKey()
+{
+	return isPrimaryKey;
+}
+
+CString CFieldEntity::GetDefaultValue()
+{
+	return defaultVal;
+}
 
 CString CFieldEntity::GetName() {
 	return strName;

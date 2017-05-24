@@ -119,14 +119,11 @@ void CINSERTRecordDlg::OnClickListData(NMHDR * pNMHDR, LRESULT * pResult)
 
 void CINSERTRecordDlg::OnKillfocusEditValue()
 {
-	// Get the value of the edit control
 	CString strValue;
 	m_editValue.GetWindowText(strValue);
 
-	// Assign the value of the edit control to list item
 	m_lstData.SetItemText(dwItem, nSubItem, strValue);
 
-	// Hide the edit control
 	m_editValue.ShowWindow(SW_HIDE);
 }
 
@@ -149,16 +146,15 @@ void CINSERTRecordDlg::OnBnClickedOk()
 	CString strField;
 	CString strValue;
 	CString strType;
-	// Get the value of each row in the list
+
 	for (int i = 0; i < nCount; i++)
 	{
-		// Field name
 		strField = m_lstData.GetItemText(i, 0);
-
-		// Value
+		strType = m_lstData.GetItemText(i, 1);
 		strValue = m_lstData.GetItemText(i, 2);
 		
-		record.Put(strField, strValue);
+		if (!strValue.Trim().IsEmpty())
+			record.Put(strField, strValue);
 	}
 
 	CDialogEx::OnOK();
