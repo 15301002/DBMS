@@ -99,10 +99,6 @@ void CDBTreeView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 			pTreeCtrl->SelectItem(hRoot);
 			break;
 		}
-		case UPDATE_DROP_DATABASE: {
-
-			break;
-		}
 		case UPDATE_OPEN_DATABASE: {
 			pTreeCtrl->DeleteAllItems();
 			CDBMSDoc* pDoc = (CDBMSDoc*)this->GetDocument();

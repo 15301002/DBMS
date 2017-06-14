@@ -66,9 +66,7 @@ void CTableView::OnInitialUpdate()
 	// Initialize the column of the list control
 	m_pListCtrl->InsertColumn(0, _T("Column"), LVCFMT_CENTER, 100);
 	m_pListCtrl->InsertColumn(1, _T("Data Type"), LVCFMT_CENTER, 100);
-	m_pListCtrl->InsertColumn(2, _T("Not NULL"), LVCFMT_CENTER, 200);
-	m_pListCtrl->InsertColumn(3, _T("Primary Key"), LVCFMT_CENTER, 100);
-	m_pListCtrl->InsertColumn(4, _T("Default Value"), LVCFMT_CENTER, 200);
+	m_pListCtrl->InsertColumn(2, _T("Default Value"), LVCFMT_CENTER, 200);
 }
 
 void CTableView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
